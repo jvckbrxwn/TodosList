@@ -56,15 +56,39 @@
 		04F92CFA29C3A61F00BFEBA5 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
-				04F92CFB29C3A61F00BFEBA5 /* AppDelegate.swift */,
-				04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */,
-				04F92CFF29C3A61F00BFEBA5 /* ViewController.swift */,
-				04F92D0129C3A61F00BFEBA5 /* Main.storyboard */,
-				04F92D0429C3A62200BFEBA5 /* Assets.xcassets */,
-				04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */,
+				04F92D1229C3A68400BFEBA5 /* Supporting Files */,
+				04F92D1029C3A66B00BFEBA5 /* Controllers */,
+				04F92D1129C3A67A00BFEBA5 /* Views */,
 				04F92D0929C3A62200BFEBA5 /* Info.plist */,
 			);
 			path = ToDoListApp;
+			sourceTree = "<group>";
+		};
+		04F92D1029C3A66B00BFEBA5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				04F92CFF29C3A61F00BFEBA5 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		04F92D1129C3A67A00BFEBA5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				04F92D0129C3A61F00BFEBA5 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		04F92D1229C3A68400BFEBA5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				04F92CFB29C3A61F00BFEBA5 /* AppDelegate.swift */,
+				04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */,
+				04F92D0429C3A62200BFEBA5 /* Assets.xcassets */,
+				04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,11 +314,13 @@
 				DEVELOPMENT_TEAM = PZYYYHVKDH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,11 +344,13 @@
 				DEVELOPMENT_TEAM = PZYYYHVKDH;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ToDoListApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
