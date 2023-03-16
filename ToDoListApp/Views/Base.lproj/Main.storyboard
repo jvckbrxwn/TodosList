@@ -29,7 +29,7 @@
                                             <imageReference key="image" image="applelogo" catalog="system" symbolScale="large"/>
                                         </state>
                                         <buttonConfiguration key="configuration" style="plain" title="Sign in with Apple" imagePadding="10" cornerStyle="large" titleAlignment="center">
-                                            <imageReference key="image" image="applelogo" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="apple.logo" catalog="system" symbolScale="large"/>
                                             <backgroundConfiguration key="background">
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </backgroundConfiguration>
@@ -66,6 +66,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="apple.logo" catalog="system" width="105" height="128"/>
         <image name="applelogo" catalog="system" width="105" height="128"/>
         <image name="circle.hexagonpath.fill" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
