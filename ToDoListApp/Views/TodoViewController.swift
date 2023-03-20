@@ -16,9 +16,10 @@ class TodoViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        todoPresenter.setPresenter(delegate: self)
         title = "Hello, \(user?.email ?? "NoName")"
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        todoPresenter.setDelegate(delegate: self)
+        todoPresenter.getTodos(from: "Home")
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -42,6 +43,7 @@ class TodoViewController: UITableViewController {
 extension TodoViewController: TodoPresenterDelegate {
     func didGetTodosSuccessully(todos: [Todo]) {
         self.todos = todos
+        print(todos.count)
         tableView.reloadData()
     }
 }

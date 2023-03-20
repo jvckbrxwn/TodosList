@@ -20,12 +20,12 @@ class TodoPresenter {
     
     let dataBase = Firestore.firestore()
     
-    public func setPresenter(delegate: Presenter) {
+    public func setDelegate(delegate: Presenter) {
         self.delegate = delegate
     }
 
     public func getTodos(from collectionName: String) {
-        dataBase.collection("todos").document("Home").collection("items").getDocuments { [weak self] snapshot, error in
+        dataBase.collection("todos").document(collectionName).collection("items").getDocuments { [weak self] snapshot, error in
             guard let safeSnapshot = snapshot, error == nil else { return }
             var todos = [Todo]()
             DispatchQueue.main.async {
