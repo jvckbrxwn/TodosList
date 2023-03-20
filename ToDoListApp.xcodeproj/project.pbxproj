@@ -9,23 +9,37 @@
 /* Begin PBXBuildFile section */
 		0436DA2D29C4792C00BC0492 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA2C29C4792C00BC0492 /* FirebaseAuth */; };
 		0436DA2F29C4792C00BC0492 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA2E29C4792C00BC0492 /* FirebaseFirestore */; };
-		0436DA3129C49AE000BC0492 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0436DA3029C49AE000BC0492 /* GoogleService-Info.plist */; };
+		0436DA3329C49CD400BC0492 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */; };
+		0436DA3629C4A10400BC0492 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA3529C4A10400BC0492 /* GoogleSignIn */; };
+		0436DA3829C4A10400BC0492 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA3729C4A10400BC0492 /* GoogleSignInSwift */; };
+		0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */; };
+		04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000829C7853600232477 /* AutoLayoutProperty.swift */; };
+		04EC000D29C8517900232477 /* EmailSignPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000C29C8517900232477 /* EmailSignPresenter.swift */; };
+		04EC000F29C855EA00232477 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000E29C855EA00232477 /* User.swift */; };
+		04EC001129C85ED100232477 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EC001029C85ED100232477 /* Assets.xcassets */; };
+		04EC001329C8920C00232477 /* TodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC001229C8920C00232477 /* TodoViewController.swift */; };
+		04EC001529C8B1B700232477 /* Todo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC001429C8B1B700232477 /* Todo.swift */; };
+		04EC001729C8B7E900232477 /* TodoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC001629C8B7E900232477 /* TodoPresenter.swift */; };
 		04F92CFC29C3A61F00BFEBA5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F92CFB29C3A61F00BFEBA5 /* AppDelegate.swift */; };
 		04F92CFE29C3A61F00BFEBA5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */; };
-		04F92D0029C3A61F00BFEBA5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F92CFF29C3A61F00BFEBA5 /* ViewController.swift */; };
-		04F92D0329C3A61F00BFEBA5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F92D0129C3A61F00BFEBA5 /* Main.storyboard */; };
-		04F92D0529C3A62200BFEBA5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F92D0429C3A62200BFEBA5 /* Assets.xcassets */; };
+		04F92D0029C3A61F00BFEBA5 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */; };
 		04F92D0829C3A62200BFEBA5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0436DA3029C49AE000BC0492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignViewController.swift; sourceTree = "<group>"; };
+		04EC000829C7853600232477 /* AutoLayoutProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutProperty.swift; sourceTree = "<group>"; };
+		04EC000C29C8517900232477 /* EmailSignPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignPresenter.swift; sourceTree = "<group>"; };
+		04EC000E29C855EA00232477 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		04EC001029C85ED100232477 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04EC001229C8920C00232477 /* TodoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoViewController.swift; sourceTree = "<group>"; };
+		04EC001429C8B1B700232477 /* Todo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todo.swift; sourceTree = "<group>"; };
+		04EC001629C8B7E900232477 /* TodoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPresenter.swift; sourceTree = "<group>"; };
 		04F92CF829C3A61F00BFEBA5 /* ToDoListApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoListApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04F92CFB29C3A61F00BFEBA5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		04F92CFF29C3A61F00BFEBA5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04F92D0229C3A61F00BFEBA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		04F92D0429C3A62200BFEBA5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		04F92D0729C3A62200BFEBA5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04F92D0929C3A62200BFEBA5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -37,12 +51,40 @@
 			files = (
 				0436DA2D29C4792C00BC0492 /* FirebaseAuth in Frameworks */,
 				0436DA2F29C4792C00BC0492 /* FirebaseFirestore in Frameworks */,
+				0436DA3629C4A10400BC0492 /* GoogleSignIn in Frameworks */,
+				0436DA3829C4A10400BC0492 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04EC000729C7851100232477 /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				04EC000829C7853600232477 /* AutoLayoutProperty.swift */,
+			);
+			path = Layout;
+			sourceTree = "<group>";
+		};
+		04EC000A29C8514E00232477 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				04EC000E29C855EA00232477 /* User.swift */,
+				04EC001429C8B1B700232477 /* Todo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		04EC000B29C8515D00232477 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				04EC000C29C8517900232477 /* EmailSignPresenter.swift */,
+				04EC001629C8B7E900232477 /* TodoPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
 		04F92CEF29C3A61F00BFEBA5 = {
 			isa = PBXGroup;
 			children = (
@@ -62,27 +104,23 @@
 		04F92CFA29C3A61F00BFEBA5 /* ToDoListApp */ = {
 			isa = PBXGroup;
 			children = (
-				0436DA3029C49AE000BC0492 /* GoogleService-Info.plist */,
-				04F92D1229C3A68400BFEBA5 /* Supporting Files */,
-				04F92D1029C3A66B00BFEBA5 /* Controllers */,
+				04EC001029C85ED100232477 /* Assets.xcassets */,
+				04EC000A29C8514E00232477 /* Models */,
 				04F92D1129C3A67A00BFEBA5 /* Views */,
+				04EC000B29C8515D00232477 /* Presenters */,
+				04F92D1229C3A68400BFEBA5 /* Supporting Files */,
+				0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */,
 				04F92D0929C3A62200BFEBA5 /* Info.plist */,
 			);
 			path = ToDoListApp;
 			sourceTree = "<group>";
 		};
-		04F92D1029C3A66B00BFEBA5 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				04F92CFF29C3A61F00BFEBA5 /* ViewController.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		04F92D1129C3A67A00BFEBA5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				04F92D0129C3A61F00BFEBA5 /* Main.storyboard */,
+				04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */,
+				0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */,
+				04EC001229C8920C00232477 /* TodoViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -90,9 +128,9 @@
 		04F92D1229C3A68400BFEBA5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04EC000729C7851100232477 /* Layout */,
 				04F92CFB29C3A61F00BFEBA5 /* AppDelegate.swift */,
 				04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */,
-				04F92D0429C3A62200BFEBA5 /* Assets.xcassets */,
 				04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
@@ -117,6 +155,8 @@
 			packageProductDependencies = (
 				0436DA2C29C4792C00BC0492 /* FirebaseAuth */,
 				0436DA2E29C4792C00BC0492 /* FirebaseFirestore */,
+				0436DA3529C4A10400BC0492 /* GoogleSignIn */,
+				0436DA3729C4A10400BC0492 /* GoogleSignInSwift */,
 			);
 			productName = ToDoListApp;
 			productReference = 04F92CF829C3A61F00BFEBA5 /* ToDoListApp.app */;
@@ -148,6 +188,7 @@
 			mainGroup = 04F92CEF29C3A61F00BFEBA5;
 			packageReferences = (
 				0436DA2B29C4792C00BC0492 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				0436DA3429C4A10400BC0492 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 04F92CF929C3A61F00BFEBA5 /* Products */;
 			projectDirPath = "";
@@ -164,9 +205,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				04F92D0829C3A62200BFEBA5 /* LaunchScreen.storyboard in Resources */,
-				0436DA3129C49AE000BC0492 /* GoogleService-Info.plist in Resources */,
-				04F92D0529C3A62200BFEBA5 /* Assets.xcassets in Resources */,
-				04F92D0329C3A61F00BFEBA5 /* Main.storyboard in Resources */,
+				0436DA3329C49CD400BC0492 /* GoogleService-Info.plist in Resources */,
+				04EC001129C85ED100232477 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,23 +217,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F92D0029C3A61F00BFEBA5 /* ViewController.swift in Sources */,
+				04EC001329C8920C00232477 /* TodoViewController.swift in Sources */,
+				04EC000D29C8517900232477 /* EmailSignPresenter.swift in Sources */,
+				04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */,
+				0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */,
+				04EC001529C8B1B700232477 /* Todo.swift in Sources */,
+				04F92D0029C3A61F00BFEBA5 /* LoginViewController.swift in Sources */,
 				04F92CFC29C3A61F00BFEBA5 /* AppDelegate.swift in Sources */,
 				04F92CFE29C3A61F00BFEBA5 /* SceneDelegate.swift in Sources */,
+				04EC001729C8B7E900232477 /* TodoPresenter.swift in Sources */,
+				04EC000F29C855EA00232477 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		04F92D0129C3A61F00BFEBA5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				04F92D0229C3A61F00BFEBA5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -411,6 +450,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		0436DA3429C4A10400BC0492 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -423,6 +470,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0436DA2B29C4792C00BC0492 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		0436DA3529C4A10400BC0492 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0436DA3429C4A10400BC0492 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		0436DA3729C4A10400BC0492 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0436DA3429C4A10400BC0492 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

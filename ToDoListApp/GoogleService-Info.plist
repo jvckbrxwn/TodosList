@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>334383031677-70qnt9i3fnn2vjj1r76q4hfjfo3re6pf.apps.googleusercontent.com</string>
+	<string>334383031677-t4btdf09uid367ltr99v85u2l3r4273v.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.334383031677-70qnt9i3fnn2vjj1r76q4hfjfo3re6pf</string>
+	<string>com.googleusercontent.apps.334383031677-t4btdf09uid367ltr99v85u2l3r4273v</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAthSlpxUhd5pwVU9Z7HEr46kYLuObO_3k</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.SwiftLearn.Chat</string>
+	<string>com.kk54.ToDoListApp</string>
 	<key>PROJECT_ID</key>
 	<string>swiftlearnchat</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:334383031677:ios:86376c33d40d0be99fd814</string>
+	<string>1:334383031677:ios:5b96e5c357347afe9fd814</string>
 </dict>
 </plist>
