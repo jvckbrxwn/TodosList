@@ -8,4 +8,4 @@ In the past I was a Unity Dveloper for 5 years, but from the begining I thought 
 I had an idea to create ToDo app with auth. This is a simple app to add, edit, remove todos with categories.
 
 ## What I used here
-MVP Design Pattern, Firebase Auth, Firebase Firestore, No Storyboards (I'm trying to write only with code), TableView etc.
+MVP Design Pattern, Delegate Pattern, Firebase Auth, Firebase Firestore, No Storyboards (I'm trying to write only with code), TableView etc.
