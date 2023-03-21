@@ -104,6 +104,7 @@ class EmailSignViewController: UIViewController {
         stackView.backgroundColor = .systemBackground
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
+        stackView.spacing = 10
         return stackView
     }()
 
