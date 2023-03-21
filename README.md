@@ -1,7 +1,7 @@
 # TodosList
 
 ## About me
-Hello, I'm Stas and I want to become a iOS developer. For now I'm trying to develope simple apps to learn new features.
+Hello, I'm Stas and I want to become an iOS developer. For now I'm trying to develope simple apps to learn new features.
 In the past I was a Unity Dveloper for 5 years, but from the begining I thought that I would be a mobile developer (not a game developer) :)
 
 ## About app
