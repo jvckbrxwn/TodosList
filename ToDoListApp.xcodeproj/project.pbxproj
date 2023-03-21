@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04093EA929C9A0EA00E3669A /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04093EA829C9A0EA00E3669A /* LoginPresenter.swift */; };
+		04093EAC29C9A91200E3669A /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04093EAB29C9A91200E3669A /* BasePresenter.swift */; };
+		04093EAE29C9B51700E3669A /* TodoItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */; };
 		0436DA2D29C4792C00BC0492 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA2C29C4792C00BC0492 /* FirebaseAuth */; };
 		0436DA2F29C4792C00BC0492 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA2E29C4792C00BC0492 /* FirebaseFirestore */; };
 		0436DA3329C49CD400BC0492 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */; };
@@ -27,6 +30,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04093EA829C9A0EA00E3669A /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		04093EAB29C9A91200E3669A /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
+		04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemsViewController.swift; sourceTree = "<group>"; };
 		0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignViewController.swift; sourceTree = "<group>"; };
 		04EC000829C7853600232477 /* AutoLayoutProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutProperty.swift; sourceTree = "<group>"; };
@@ -59,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04093EAA29C9A90400E3669A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				04093EAB29C9A91200E3669A /* BasePresenter.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		04EC000729C7851100232477 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,8 +93,10 @@
 		04EC000B29C8515D00232477 /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
+				04093EAA29C9A90400E3669A /* Base */,
 				04EC000C29C8517900232477 /* EmailSignPresenter.swift */,
 				04EC001629C8B7E900232477 /* TodoPresenter.swift */,
+				04093EA829C9A0EA00E3669A /* LoginPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -121,6 +137,7 @@
 				04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */,
 				0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */,
 				04EC001229C8920C00232477 /* TodoViewController.swift */,
+				04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,8 +234,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04093EAE29C9B51700E3669A /* TodoItemsViewController.swift in Sources */,
 				04EC001329C8920C00232477 /* TodoViewController.swift in Sources */,
+				04093EAC29C9A91200E3669A /* BasePresenter.swift in Sources */,
 				04EC000D29C8517900232477 /* EmailSignPresenter.swift in Sources */,
+				04093EA929C9A0EA00E3669A /* LoginPresenter.swift in Sources */,
 				04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */,
 				0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */,
 				04EC001529C8B1B700232477 /* Todo.swift in Sources */,
@@ -371,7 +391,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -401,7 +421,7 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;

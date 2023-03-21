@@ -5,24 +5,15 @@
 //  Created by Mac on 20.03.2023.
 //
 
-import UIKit
 import FirebaseFirestore
+import UIKit
 
-protocol TodoPresenterDelegate: AnyObject {
+protocol TodoPresenterDelegate: BasePresenterDelegate {
     func didGetTodosSuccessully(todos: [Todo])
 }
 
-typealias Presenter = TodoPresenterDelegate & UIViewController
-
-class TodoPresenter {
-    
-    private weak var delegate: Presenter?
-    
+class TodoPresenter: BasePresenter {
     let dataBase = Firestore.firestore()
-    
-    public func setDelegate(delegate: Presenter) {
-        self.delegate = delegate
-    }
 
     public func getTodos(from collectionName: String) {
         dataBase.collection("todos").document(collectionName).collection("items").getDocuments { [weak self] snapshot, error in
@@ -38,7 +29,8 @@ class TodoPresenter {
                 }
 
                 todos.append(Todo(name: "Home", items: items))
-                self?.delegate?.didGetTodosSuccessully(todos: todos)
+                (self?.delegate as? TodoPresenterDelegate)?.didGetTodosSuccessully(todos: todos)
+                
             }
         }
     }

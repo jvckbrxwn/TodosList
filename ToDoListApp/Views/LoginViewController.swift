@@ -12,9 +12,12 @@ import UIKit
 
 protocol LoginViewDelagate: AnyObject {
     func didSignInSuccessfully(user: User)
+    func signInError(message: String)
 }
 
 class LoginViewController: UIViewController {
+    private lazy var loginPresenter = LoginPresenter()
+
     private lazy var signInWithAppleButton: UIButton = {
         var configuration = UIButton.Configuration.plain()
         configuration.cornerStyle = .large
@@ -62,6 +65,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        loginPresenter.delegate = self
         initUI()
     }
 
@@ -96,46 +100,28 @@ extension LoginViewController {
         present(alert, animated: true)
     }
 
-    @objc fileprivate func signInWithGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-
-        // Start the sign in flow!
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
-            guard error == nil else { return }
-
-            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
-
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                           accessToken: user.accessToken.tokenString)
-
-            Auth.auth().signIn(with: credential) { _, error in
-                guard error == nil else { return }
-
-                if let result = result {
-                    print(result.user.userID!)
-                    // go to another scene
-                }
-            }
-        }
-    }
-
     @objc fileprivate func sighInWithEmail() {
         let viewControllerToPresent = EmailSignViewController()
         viewControllerToPresent.loginDelegate = self
-        if let sheet = viewControllerToPresent.sheetPresentationController {
+        let nav = UINavigationController(rootViewController: viewControllerToPresent)
+        if let sheet = nav.sheetPresentationController {
             sheet.detents = [.medium()]
-            sheet.largestUndimmedDetentIdentifier = .medium
-            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-            sheet.prefersEdgeAttachedInCompactHeight = true
-            sheet.widthFollowsPreferredContentSizeWhenEdgeAttached = true
         }
-        navigationController?.present(viewControllerToPresent, animated: true)
+        present(nav, animated: true)
+    }
+
+    @objc fileprivate func signInWithGoogle() {
+        loginPresenter.signInWithGoogle()
     }
 }
 
-extension LoginViewController: LoginViewDelagate {
+extension LoginViewController: LoginViewDelagate, GoogleLoginDelegate {
+    func signInError(message: String) {
+        let alert = UIAlertController(title: "Sign in error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        present(alert, animated: true)
+    }
+
     func didSignInSuccessfully(user: User) {
         let todoVC = TodoViewController()
         todoVC.user = user
