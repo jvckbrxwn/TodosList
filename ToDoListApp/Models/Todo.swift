@@ -14,5 +14,4 @@ struct TodoItem: Codable {
 
 struct Todo: Codable {
     let name: String
-    var items: [TodoItem]
 }

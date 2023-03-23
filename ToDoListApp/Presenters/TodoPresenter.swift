@@ -13,25 +13,53 @@ protocol TodoPresenterDelegate: BasePresenterDelegate {
 }
 
 class TodoPresenter: BasePresenter {
-    let dataBase = Firestore.firestore()
+    private let dataBase = Firestore.firestore()
 
-    public func getTodos(from collectionName: String) {
-        dataBase.collection("todos").document(collectionName).collection("items").getDocuments { [weak self] snapshot, error in
-            guard let safeSnapshot = snapshot, error == nil else { return }
-            var todos = [Todo]()
-            DispatchQueue.main.async {
-                var items = [TodoItem]()
-                for doc in safeSnapshot.documents {
-                    let isDone = Bool(truncating: doc["isDone"] as! NSNumber)
-                    let name = doc["name"] as! String
-                    let item = TodoItem(isDone: isDone, name: name)
-                    items.append(item)
-                }
+    internal func getTodos() {
+        guard let user = UserManager.shared.getUserInfo() else { return }
 
-                todos.append(Todo(name: "Home", items: items))
-                (self?.delegate as? TodoPresenterDelegate)?.didGetTodosSuccessully(todos: todos)
-                
+        var todoNames = [Todo]()
+        dataBase.collection(user.email).getDocuments { [weak self] snapshot, _ in
+            guard let snapshot = snapshot else {
+                print("Can't get documents in \(String(describing: self)) in function \(#function)")
+                return
             }
+
+            for doc in snapshot.documents {
+                todoNames.append(Todo(name: doc.documentID))
+            }
+
+            (self?.delegate as? TodoPresenterDelegate)?.didGetTodosSuccessully(todos: todoNames)
+        }
+    }
+
+    internal func addTodo(name: String) {
+        guard let user = UserManager.shared.getUserInfo() else { return }
+
+        dataBase.collection(user.email).document(name).setData([:]) { [weak self] error in
+            guard error == nil else { return }
+            self?.getTodos()
+        }
+    }
+
+    internal func deleteTodo(name: String, handler: @escaping () -> Void) {
+        guard let user = UserManager.shared.getUserInfo() else { return }
+
+        let docRef = dataBase.collection(user.email).document(name)
+
+        docRef.collection("todos").getDocuments { snapshot, error in
+            guard error == nil else { print(error!.localizedDescription); return }
+            guard let snapshot = snapshot else { return }
+
+            snapshot.documents.forEach { doc in
+                doc.reference.delete()
+            }
+
+            // TODO: docRef.collection("todos") cannot be deleted, to think about new methods to save and delete data
+
+            docRef.delete()
+
+            handler()
         }
     }
 }

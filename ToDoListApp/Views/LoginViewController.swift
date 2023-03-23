@@ -16,7 +16,7 @@ protocol LoginViewDelagate: AnyObject {
 }
 
 class LoginViewController: UIViewController {
-    private lazy var loginPresenter = LoginPresenter()
+    private var loginPresenter: LoginPresenter = LoginPresenter()
 
     private lazy var signInWithAppleButton: UIButton = {
         var configuration = UIButton.Configuration.plain()
@@ -81,16 +81,6 @@ class LoginViewController: UIViewController {
     }
 }
 
-extension UIView {
-    public var viewWidth: CGFloat {
-        return frame.size.width
-    }
-
-    public var viewHeight: CGFloat {
-        return frame.size.height
-    }
-}
-
 // MARK: - Sign in methods
 
 extension LoginViewController {
@@ -123,8 +113,8 @@ extension LoginViewController: LoginViewDelagate, GoogleLoginDelegate {
     }
 
     func didSignInSuccessfully(user: User) {
+        UserManager.shared.setUser(user: user)
         let todoVC = TodoViewController()
-        todoVC.user = user
         navigationController?.pushViewController(todoVC, animated: true)
     }
 }

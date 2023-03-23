@@ -34,8 +34,8 @@ class LoginPresenter: BasePresenter {
                 }
 
                 if let result = result {
-                    print(result.user.userID!)
                     let user = User(name: result.user.userID!, email: result.user.profile!.email)
+                    UserManager.shared.setUser(user: user)
                     (self?.delegate as? GoogleLoginDelegate)?.didSignInSuccessfully(user: user)
                 }
             }

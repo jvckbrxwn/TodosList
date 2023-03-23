@@ -16,6 +16,8 @@
 		0436DA3629C4A10400BC0492 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA3529C4A10400BC0492 /* GoogleSignIn */; };
 		0436DA3829C4A10400BC0492 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0436DA3729C4A10400BC0492 /* GoogleSignInSwift */; };
 		0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */; };
+		047AA37C29CB3EB000469539 /* TodoItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */; };
+		04E49D1F29CC45A90099C393 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E49D1E29CC45A90099C393 /* UserManager.swift */; };
 		04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000829C7853600232477 /* AutoLayoutProperty.swift */; };
 		04EC000D29C8517900232477 /* EmailSignPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000C29C8517900232477 /* EmailSignPresenter.swift */; };
 		04EC000F29C855EA00232477 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EC000E29C855EA00232477 /* User.swift */; };
@@ -35,6 +37,8 @@
 		04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemsViewController.swift; sourceTree = "<group>"; };
 		0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignViewController.swift; sourceTree = "<group>"; };
+		047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemPresenter.swift; sourceTree = "<group>"; };
+		04E49D1E29CC45A90099C393 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		04EC000829C7853600232477 /* AutoLayoutProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoLayoutProperty.swift; sourceTree = "<group>"; };
 		04EC000C29C8517900232477 /* EmailSignPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignPresenter.swift; sourceTree = "<group>"; };
 		04EC000E29C855EA00232477 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 			children = (
 				04EC000E29C855EA00232477 /* User.swift */,
 				04EC001429C8B1B700232477 /* Todo.swift */,
+				04E49D1E29CC45A90099C393 /* UserManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -97,6 +102,7 @@
 				04EC000C29C8517900232477 /* EmailSignPresenter.swift */,
 				04EC001629C8B7E900232477 /* TodoPresenter.swift */,
 				04093EA829C9A0EA00E3669A /* LoginPresenter.swift */,
+				047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -237,6 +243,7 @@
 				04093EAE29C9B51700E3669A /* TodoItemsViewController.swift in Sources */,
 				04EC001329C8920C00232477 /* TodoViewController.swift in Sources */,
 				04093EAC29C9A91200E3669A /* BasePresenter.swift in Sources */,
+				04E49D1F29CC45A90099C393 /* UserManager.swift in Sources */,
 				04EC000D29C8517900232477 /* EmailSignPresenter.swift in Sources */,
 				04093EA929C9A0EA00E3669A /* LoginPresenter.swift in Sources */,
 				04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */,
@@ -247,6 +254,7 @@
 				04F92CFE29C3A61F00BFEBA5 /* SceneDelegate.swift in Sources */,
 				04EC001729C8B7E900232477 /* TodoPresenter.swift in Sources */,
 				04EC000F29C855EA00232477 /* User.swift in Sources */,
+				047AA37C29CB3EB000469539 /* TodoItemPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
