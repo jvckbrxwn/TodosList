@@ -47,6 +47,7 @@ class TodoPresenter: BasePresenter {
 
         let docRef = dataBase.collection(user.email).document(name)
 
+        // TODO: docRef.collection("todos") cannot be deleted, to think about new methods to save and delete data
         docRef.collection("todos").getDocuments { snapshot, error in
             guard error == nil else { print(error!.localizedDescription); return }
             guard let snapshot = snapshot else { return }
@@ -54,12 +55,9 @@ class TodoPresenter: BasePresenter {
             snapshot.documents.forEach { doc in
                 doc.reference.delete()
             }
-
-            // TODO: docRef.collection("todos") cannot be deleted, to think about new methods to save and delete data
-
-            docRef.delete()
-
-            handler()
+            docRef.delete { _ in
+                handler()
+            }
         }
     }
 }

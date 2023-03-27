@@ -10,7 +10,6 @@ import UIKit
 
 protocol TodoItemPresenterDelegate: BasePresenterDelegate {
     func didItemsGet(todoItems: [TodoItem])
-    func didItemAdded()
 }
 
 class TodoItemPresenter: BasePresenter {
@@ -30,7 +29,6 @@ class TodoItemPresenter: BasePresenter {
             .getDocuments { [weak self] snapshot, _ in
                 if let safeSnap = snapshot {
                     for doc in safeSnap.documents {
-                        print(doc.data())
                         todoItems.append(TodoItem(isDone: Bool(truncating: doc["isDone"] as! NSNumber), name: doc.documentID))
                     }
                 }
@@ -41,9 +39,19 @@ class TodoItemPresenter: BasePresenter {
     internal func addItem(name: String, _ isDone: Bool = false) {
         guard let userInfo = UserManager.shared.getUserInfo() else { return }
 
-        print("I want to add \(name) to category with name \(selectedCategory!)")
-        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(name).setData(["isDone": isDone]) { [weak self] error in
-            (self?.delegate as? TodoItemPresenterDelegate)?.didItemAdded()
+        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(name).setData(["isDone": isDone]) { _ in
+            self.getItems()
+        }
+    }
+
+    internal func updateItem(name: String, value: Bool, handler: @escaping () -> Void) {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+
+        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(name).updateData(["isDone": value]) { error in
+            guard error == nil else { return }
+            
+            self.getItems()
+            handler()
         }
     }
 }

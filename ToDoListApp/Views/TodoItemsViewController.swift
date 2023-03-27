@@ -19,7 +19,7 @@ class TodoItemsViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addItemClicked))
         presenter.setDelegate(delegate: self)
         presenter.selectedCategory = selectedCategoryName // get items after selected category was set
-        title = "Todo items"
+        title = selectedCategoryName
     }
 
     @objc private func addItemClicked() {
@@ -47,6 +47,14 @@ class TodoItemsViewController: UITableViewController {
         cell.accessoryType = item.isDone ? .checkmark : .none
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let isDone = !todoItems[indexPath.row].isDone
+        presenter.updateItem(name: todoItems[indexPath.row].name, value: isDone) {
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -58,9 +66,5 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
     func didItemsGet(todoItems: [TodoItem]) {
         self.todoItems = todoItems
         tableView.reloadData()
-    }
-
-    func didItemAdded() {
-        print("Item added")
     }
 }

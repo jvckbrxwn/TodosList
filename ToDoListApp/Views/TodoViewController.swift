@@ -59,7 +59,7 @@ class TodoViewController: UITableViewController {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completeHandler in
             self.todoPresenter.deleteTodo(name: self.todos[indexPath.row].name) {
                 self.todos.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             completeHandler(true)
         }
@@ -74,7 +74,6 @@ class TodoViewController: UITableViewController {
 extension TodoViewController: TodoPresenterDelegate {
     func didGetTodosSuccessully(todos: [Todo]) {
         self.todos = todos
-        print(todos.count)
         tableView.reloadData()
     }
 }

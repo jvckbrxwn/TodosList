@@ -21,13 +21,12 @@ class LoginPresenter: BasePresenter {
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
 
-        guard let delegate = delegate else { return }
-        GIDSignIn.sharedInstance.signIn(withPresenting: delegate) { result, error in
+        GIDSignIn.sharedInstance.signIn(withPresenting: delegate!) { [weak self] result, error in
             guard error == nil else { return }
             guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
 
-            Auth.auth().signIn(with: credential) { [weak self] _, error in
+            Auth.auth().signIn(with: credential) {_, error in
                 guard error == nil else {
                     (self?.delegate as? GoogleLoginDelegate)?.signInError(message: error!.localizedDescription)
                     return
