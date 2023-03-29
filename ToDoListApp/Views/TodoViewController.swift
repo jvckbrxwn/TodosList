@@ -10,25 +10,20 @@ import FirebaseFirestore
 import UIKit
 
 class TodoViewController: UITableViewController {
-    private let todoPresenter = TodoPresenter()
+    private lazy var todoPresenter = TodoPresenter()
+    private lazy var todoItemsVC = TodoItemsViewController()
     private var firstTimeLogin = false
     private var todos = [Todo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Hello, \(UserManager.shared.getUserInfo()?.email ?? "NoName")"
+        title = "Todo"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         todoPresenter.setDelegate(delegate: self)
         todoPresenter.getTodos()
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutClicked))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addCategoryClicked))
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        if firstTimeLogin {
-            title = "Todo"
-        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -50,7 +45,6 @@ class TodoViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let todoItemsVC = TodoItemsViewController()
         todoItemsVC.selectedCategoryName = todos[indexPath.row].name
         navigationController?.pushViewController(todoItemsVC, animated: true)
     }

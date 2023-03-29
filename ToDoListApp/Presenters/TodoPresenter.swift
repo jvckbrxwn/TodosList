@@ -26,7 +26,7 @@ class TodoPresenter: BasePresenter {
             }
 
             for doc in snapshot.documents {
-                todoNames.append(Todo(name: doc.documentID))
+                todoNames.append(Todo(name: doc.documentID, creationDate: Date()))
             }
 
             (self?.delegate as? TodoPresenterDelegate)?.didGetTodosSuccessully(todos: todoNames)

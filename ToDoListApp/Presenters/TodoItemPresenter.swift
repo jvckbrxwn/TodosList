@@ -6,52 +6,100 @@
 //
 
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import UIKit
 
 protocol TodoItemPresenterDelegate: BasePresenterDelegate {
-    func didItemsGet(todoItems: [TodoItem])
+    func didGetItems(items: [TodoItem])
+    func didItemUpdated(item: TodoItem)
+    func didItemRemoved(item: TodoItem)
+    func didItemAdded(item: TodoItem)
+    func didCategoryWasChanged()
 }
 
 class TodoItemPresenter: BasePresenter {
-    let db = Firestore.firestore()
+    private let db = Firestore.firestore()
+    private var itemsListener: ListenerRegistration?
 
     internal var selectedCategory: String? {
-        didSet {
-            getItems()
-        }
-    }
-
-    internal func getItems() {
-        guard let userInfo = UserManager.shared.getUserInfo() else { return }
-
-        var todoItems = [TodoItem]()
-        db.collection(userInfo.email).document(selectedCategory!).collection("todos")
-            .getDocuments { [weak self] snapshot, _ in
-                if let safeSnap = snapshot {
-                    for doc in safeSnap.documents {
-                        todoItems.append(TodoItem(isDone: Bool(truncating: doc["isDone"] as! NSNumber), name: doc.documentID))
-                    }
-                }
-                (self?.delegate as? TodoItemPresenterDelegate)?.didItemsGet(todoItems: todoItems)
-            }
-    }
-
-    internal func addItem(name: String, _ isDone: Bool = false) {
-        guard let userInfo = UserManager.shared.getUserInfo() else { return }
-
-        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(name).setData(["isDone": isDone]) { _ in
-            self.getItems()
-        }
-    }
-
-    internal func updateItem(name: String, value: Bool, handler: @escaping () -> Void) {
-        guard let userInfo = UserManager.shared.getUserInfo() else { return }
-
-        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(name).updateData(["isDone": value]) { error in
-            guard error == nil else { return }
+        didSet{
+            if oldValue == selectedCategory { return }
             
-            self.getItems()
-            handler()
+            (delegate as? TodoItemPresenterDelegate)?.didCategoryWasChanged()
+            itemsListener?.remove()
+            getItems()
+            initListener()
         }
+    }
+
+    internal func addItem(_ item: TodoItem) {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+
+        do {
+            try db.collection(userInfo.email).document(selectedCategory!).collection("todos").addDocument(from: item)
+        } catch {
+            print(error)
+        }
+    }
+
+    internal func updateItem(_ item: TodoItem) {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+
+        do {
+            if let docID = item.id {
+                try db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(docID).setData(from: item)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    internal func deleteItem(_ item: TodoItem) { // , handler: @escaping () -> Void) {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+        guard let docID = item.id else { return }
+        print(docID)
+
+        db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(docID).delete()
+    }
+
+    private func getItems() {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+
+        db.collection(userInfo.email).document(selectedCategory!).collection("todos").getDocuments { [weak self] snapshot, _ in
+            guard let snapshot = snapshot else { return }
+            do {
+                var items = [TodoItem]()
+                try snapshot.documents.forEach { items.append(try $0.data(as: TodoItem.self)) }
+                (self?.delegate as? TodoItemPresenterDelegate)?.didGetItems(items: items)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    private func initListener() {
+        guard let userInfo = UserManager.shared.getUserInfo() else { return }
+
+        itemsListener = db.collection(userInfo.email).document(selectedCategory!)
+            .collection("todos").addSnapshotListener { [weak self] snapshot, _ in
+                guard let snapshot = snapshot else { return }
+                snapshot.documentChanges.forEach({ diff in
+                    do {
+                        switch diff.type {
+                        case .added:
+                            let item = try diff.document.data(as: TodoItem.self)
+                            (self?.delegate as? TodoItemPresenterDelegate)?.didItemAdded(item: item)
+                        case .modified:
+                            let item = try diff.document.data(as: TodoItem.self)
+                            (self?.delegate as? TodoItemPresenterDelegate)?.didItemUpdated(item: item)
+                        case .removed:
+                            let item = try diff.document.data(as: TodoItem.self)
+                            (self?.delegate as? TodoItemPresenterDelegate)?.didItemRemoved(item: item)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                })
+            }
     }
 }
