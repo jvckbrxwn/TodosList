@@ -57,7 +57,6 @@ class TodoItemPresenter: BasePresenter {
     internal func deleteItem(_ item: TodoItem) { // , handler: @escaping () -> Void) {
         guard let userInfo = UserManager.shared.getUserInfo() else { return }
         guard let docID = item.id else { return }
-        print(docID)
 
         db.collection(userInfo.email).document(selectedCategory!).collection("todos").document(docID).delete()
     }

@@ -44,6 +44,9 @@ class TodoItemsViewController: UITableViewController {
                 self.presenter.addItem(TodoItem(isDone: false, name: name, creationDate: Date()))
             }
         })
+        addItemAlert.addAction(UIAlertAction(title: "Close", style: .cancel){ _ in
+            addItemAlert.dismiss(animated: true)
+        })
         present(addItemAlert, animated: true)
     }
 
@@ -80,7 +83,6 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
     }
     
     func didItemUpdated(item: TodoItem) {
-        print("modified: \(item)")
         let index = todoItems.firstIndex(where: { $0.name == item.name })
         if let i = index {
             todoItems[i] = item
@@ -89,7 +91,6 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
     }
 
     func didItemRemoved(item: TodoItem) {
-        print("removed: \(item)")
         let index = todoItems.firstIndex(where: { $0.name == item.name })
         if let i = index {
             todoItems.remove(at: i)
@@ -98,7 +99,6 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
     }
 
     func didItemAdded(item: TodoItem) {
-        print("added: \(item)")
         todoItems.append(item)
         tableView.insertRows(at: [IndexPath(row: todoItems.count - 1, section: 0)], with: .automatic)
     }

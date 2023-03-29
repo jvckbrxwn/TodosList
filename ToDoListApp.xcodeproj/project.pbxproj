@@ -74,6 +74,14 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		043CC32B29D431BC0076A698 /* Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */,
+			);
+			path = Sheets;
+			sourceTree = "<group>";
+		};
 		04EC000729C7851100232477 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,8 +147,8 @@
 		04F92D1129C3A67A00BFEBA5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				043CC32B29D431BC0076A698 /* Sheets */,
 				04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */,
-				0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */,
 				04EC001229C8920C00232477 /* TodoViewController.swift */,
 				04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */,
 			);
@@ -172,7 +180,6 @@
 				FF2EDE30AF5F3557EBA8EE08 /* Pods-ToDoListApp.debug.xcconfig */,
 				3D0C4E7D974CC121DD407E48 /* Pods-ToDoListApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
