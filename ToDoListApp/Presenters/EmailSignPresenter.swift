@@ -23,9 +23,7 @@ class EmailSignPresenter: BasePresenter {
                 }
             } else {
                 if let safeError = error {
-                    DispatchQueue.main.async {
-                        (self?.delegate as? EmailSignDelegate)?.errorSignIn(message: safeError.localizedDescription)
-                    }
+                    (self?.delegate as? EmailSignDelegate)?.errorSignIn(message: safeError.localizedDescription)
                 }
             }
         }

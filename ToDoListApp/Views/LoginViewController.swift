@@ -91,9 +91,9 @@ extension LoginViewController {
     }
 
     @objc fileprivate func sighInWithEmail() {
-        let viewControllerToPresent = EmailSignViewController()
-        viewControllerToPresent.loginDelegate = self
-        let nav = UINavigationController(rootViewController: viewControllerToPresent)
+        let emailVC = EmailSignViewController()
+        emailVC.loginDelegate = self
+        let nav = UINavigationController(rootViewController: emailVC)
         if let sheet = nav.sheetPresentationController {
             sheet.detents = [.medium()]
         }

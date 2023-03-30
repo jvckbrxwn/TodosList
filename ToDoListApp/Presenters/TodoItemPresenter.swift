@@ -38,7 +38,7 @@ class TodoItemPresenter: BasePresenter {
         do {
             try db.collection(userInfo.email).document(selectedCategory!).collection("todos").addDocument(from: item)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 
