@@ -88,11 +88,17 @@ extension LoginViewController {
     }
 
     @objc fileprivate func sighInWithEmail() {
-        if let sheet = emailVC.sheetPresentationController {
-            sheet.detents = [.medium()]
-            sheet.prefersGrabberVisible = true
+        if let sheet = emailSheetNav.sheetPresentationController {
+            if #available(iOS 16.0, *) {
+                sheet.detents = [.custom {
+                    _ in 350
+                }]
+            } else {
+                sheet.detents = [.medium()]
+            }
+            //sheet.prefersGrabberVisible = true
         }
-        present(emailVC, animated: true)
+        present(emailSheetNav, animated: true)
     }
 
     @objc fileprivate func signInWithGoogle() {
