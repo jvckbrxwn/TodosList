@@ -12,7 +12,6 @@ import UIKit
 class TodoViewController: UITableViewController {
     private lazy var todoPresenter = TodoPresenter()
     private lazy var todoItemsVC = TodoItemsViewController()
-    private var firstTimeLogin = false
     private var todos = [Todo]()
 
     override func viewDidLoad() {
@@ -23,15 +22,10 @@ class TodoViewController: UITableViewController {
         todoPresenter.getTodos()
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutClicked))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "+", style: .plain, target: self, action: #selector(addCategoryClicked))
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        firstTimeLogin = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addCategoryClicked))
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return todos.count
     }
 
@@ -66,6 +60,11 @@ class TodoViewController: UITableViewController {
 // MARK: - Todo Presenter Delegate functions
 
 extension TodoViewController: TodoPresenterDelegate {
+    func didGetError(message: String) {
+        let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: message)
+        present(alert, animated: true)
+    }
+    
     func didGetTodosSuccessully(todos: [Todo]) {
         self.todos = todos
         tableView.reloadData()
@@ -79,14 +78,13 @@ extension TodoViewController {
         do {
             try Auth.auth().signOut()
             navigationController?.popToRootViewController(animated: true)
-            firstTimeLogin = false
         } catch {
-            let alert = UIAlertController(title: "Log out error", message: error.localizedDescription, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+            let alert = ErrorAlert.shared.show(title: "Log out error", errorMessage: error.localizedDescription)
             present(alert, animated: true)
         }
     }
 
+    //TODO: change to another view without alert with textFields
     @objc private func addCategoryClicked() {
         var categoryNameTextField = UITextField()
         let addCategoryAlert = UIAlertController(title: "Add category", message: "Enter the name to the new category", preferredStyle: .alert)

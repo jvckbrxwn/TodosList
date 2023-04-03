@@ -10,13 +10,10 @@ import FirebaseCore
 import GoogleSignIn
 import UIKit
 
-protocol LoginViewDelagate: AnyObject {
-    func didSignInSuccessfully(user: User)
-    func signInError(message: String)
-}
-
 class LoginViewController: UIViewController {
-    private var loginPresenter: LoginPresenter = LoginPresenter()
+    private lazy var loginPresenter: LoginPresenter = LoginPresenter()
+    private lazy var emailVC = EmailSignViewController()
+    private lazy var emailSheetNav = UINavigationController(rootViewController: emailVC)
 
     private lazy var signInWithAppleButton: UIButton = {
         var configuration = UIButton.Configuration.plain()
@@ -66,6 +63,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         loginPresenter.delegate = self
+        emailVC.loginDelegate = self
         initUI()
     }
 
@@ -85,19 +83,16 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController {
     @objc fileprivate func signInWithApple() {
-        let alert = UIAlertController(title: "Apple sign in", message: "Apple sign in will be implement as soon as possible!", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        let alert = ErrorAlert.shared.show(title: "Apple sign in", errorMessage: "Apple sign in will be implement as soon as possible!")
         present(alert, animated: true)
     }
 
     @objc fileprivate func sighInWithEmail() {
-        let emailVC = EmailSignViewController()
-        emailVC.loginDelegate = self
-        let nav = UINavigationController(rootViewController: emailVC)
-        if let sheet = nav.sheetPresentationController {
+        if let sheet = emailVC.sheetPresentationController {
             sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
         }
-        present(nav, animated: true)
+        present(emailVC, animated: true)
     }
 
     @objc fileprivate func signInWithGoogle() {
@@ -105,10 +100,9 @@ extension LoginViewController {
     }
 }
 
-extension LoginViewController: LoginViewDelagate, GoogleLoginDelegate {
+extension LoginViewController: LoginViewDelagate {
     func signInError(message: String) {
-        let alert = UIAlertController(title: "Sign in error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Close", style: .cancel))
+        let alert = ErrorAlert.shared.show(title: "Sign in error", errorMessage: message)
         present(alert, animated: true)
     }
 

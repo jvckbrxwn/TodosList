@@ -10,6 +10,7 @@ import UIKit
 
 protocol TodoPresenterDelegate: BasePresenterDelegate {
     func didGetTodosSuccessully(todos: [Todo])
+    func didGetError(message: String)
 }
 
 class TodoPresenter: BasePresenter {
@@ -19,9 +20,10 @@ class TodoPresenter: BasePresenter {
         guard let user = UserManager.shared.getUserInfo() else { return }
 
         var todoNames = [Todo]()
-        dataBase.collection(user.email).getDocuments { [weak self] snapshot, _ in
-            guard let snapshot = snapshot else {
-                print("Can't get documents in \(String(describing: self)) in function \(#function)")
+        dataBase.collection(user.email).getDocuments { [weak self] snapshot, error in
+            guard error == nil, let snapshot = snapshot else {
+                // let message = "Can't get documents in \(String(describing: self)) in function \(#function)"
+                (self?.delegate as? TodoPresenterDelegate)?.didGetError(message: error!.localizedDescription)
                 return
             }
 
@@ -37,7 +39,10 @@ class TodoPresenter: BasePresenter {
         guard let user = UserManager.shared.getUserInfo() else { return }
 
         dataBase.collection(user.email).document(name).setData([:]) { [weak self] error in
-            guard error == nil else { return }
+            guard error == nil else {
+                (self?.delegate as? TodoPresenterDelegate)?.didGetError(message: error!.localizedDescription)
+                return
+            }
             self?.getTodos()
         }
     }
@@ -48,14 +53,20 @@ class TodoPresenter: BasePresenter {
         let docRef = dataBase.collection(user.email).document(name)
 
         // TODO: docRef.collection("todos") cannot be deleted, to think about new methods to save and delete data
-        docRef.collection("todos").getDocuments { snapshot, error in
-            guard error == nil else { print(error!.localizedDescription); return }
-            guard let snapshot = snapshot else { return }
+        docRef.collection("todos").getDocuments { [weak self] snapshot, error in
+            guard error == nil, let snapshot = snapshot else {
+                (self?.delegate as? TodoPresenterDelegate)?.didGetError(message: error!.localizedDescription)
+                return
+            }
 
             snapshot.documents.forEach { doc in
                 doc.reference.delete()
             }
-            docRef.delete { _ in
+            docRef.delete { error in
+                guard error == nil else {
+                    (self?.delegate as? TodoPresenterDelegate)?.didGetError(message: error!.localizedDescription)
+                    return
+                }
                 handler()
             }
         }

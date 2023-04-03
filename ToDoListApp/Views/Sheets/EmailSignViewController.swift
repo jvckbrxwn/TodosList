@@ -11,6 +11,12 @@ class EmailSignViewController: UIViewController {
     internal weak var loginDelegate: LoginViewDelagate?
     private let emailPresenter = EmailSignPresenter()
 
+    private var wasEmailError: Bool = false // TODO: Change it asap. Too bad idea
+    private var wasPasswordError: Bool = false // TODO: Change it asap. Too bad idea
+
+    private let emailTextFieldIdentifier = "emailTextField"
+    private let passwordTextFieldIdentifier = "passwordTextField"
+
     private lazy var emailLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -21,7 +27,7 @@ class EmailSignViewController: UIViewController {
     private lazy var emailErrorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Error message for out email text field"
+        label.textColor = UIColor.red
         label.font = label.font.withSize(10)
         return label
     }()
@@ -32,6 +38,9 @@ class EmailSignViewController: UIViewController {
         textField.placeholder = "Enter your email..."
         textField.keyboardType = .emailAddress
         textField.borderStyle = .roundedRect
+        textField.autocapitalizationType = .none
+        textField.accessibilityIdentifier = emailTextFieldIdentifier
+        textField.layer.cornerRadius = 5
         return textField
     }()
 
@@ -43,7 +52,7 @@ class EmailSignViewController: UIViewController {
         view.addSubview(emailErrorLabel)
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: 115),
-            
+
             emailLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             view.trailingAnchor.constraint(equalTo: emailLabel.trailingAnchor, constant: 20),
             emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -68,12 +77,12 @@ class EmailSignViewController: UIViewController {
         label.text = "Password"
         return label
     }()
-    
+
     private lazy var passwordErrorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Error message for out password text field"
         label.font = label.font.withSize(10)
+        label.textColor = UIColor.red
         return label
     }()
 
@@ -83,6 +92,8 @@ class EmailSignViewController: UIViewController {
         textField.placeholder = "Enter you password..."
         textField.isSecureTextEntry = true
         textField.borderStyle = .roundedRect
+        textField.accessibilityIdentifier = passwordTextFieldIdentifier
+        textField.layer.cornerRadius = 5
         return textField
     }()
 
@@ -94,11 +105,11 @@ class EmailSignViewController: UIViewController {
         view.addSubview(passwordErrorLabel)
         NSLayoutConstraint.activate([
             view.heightAnchor.constraint(equalToConstant: 115),
-            
+
             passwordLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             view.trailingAnchor.constraint(equalTo: passwordLabel.trailingAnchor, constant: 20),
-            
+
             passwordTextField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor, constant: 5),
             view.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor, constant: 20),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -127,7 +138,23 @@ class EmailSignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         emailPresenter.setDelegate(delegate: self)
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         initUI()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        if wasEmailError {
+            emailTextField.clearError()
+            emailErrorLabel.text = ""
+            wasEmailError = false
+        }
+
+        if wasPasswordError {
+            passwordTextField.clearError()
+            passwordErrorLabel.text = ""
+            wasPasswordError = false
+        }
     }
 
     private func initUI() {
@@ -142,25 +169,28 @@ class EmailSignViewController: UIViewController {
             emailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             emailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: emailView.trailingAnchor),
-            
+
             passwordView.topAnchor.constraint(equalTo: emailView.bottomAnchor),
             passwordView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: passwordView.trailingAnchor),
-            
+
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loginButton.topAnchor.constraint(equalTo: passwordView.bottomAnchor, constant: 10),
         ])
     }
 
     @objc private func signInClicked() {
-        if emailTextField.text == nil {
-            // show redborder and small label that email is not valid
-            emailTextField.layer.borderColor = UIColor.red.cgColor
+        emailTextField.endEditing(true)
+        passwordTextField.endEditing(true)
+
+        if Validator.shared.validate(email: emailTextField.text!) == false {
+            wasEmailError = true
+            emailTextField.setError(errorLabel: emailErrorLabel, message: "Email is not valid")
             return
         }
-        if passwordTextField.text == nil {
-            // show redborder and small label that password exists
-            passwordTextField.layer.borderColor = UIColor.red.cgColor
+        if Validator.shared.validate(password: passwordTextField.text!) == false {
+            wasPasswordError = true
+            passwordTextField.setError(errorLabel: passwordErrorLabel, message: "Password cannot be empty")
             return
         }
 
@@ -183,13 +213,29 @@ extension EmailSignViewController: EmailSignDelegate {
     }
 
     func errorSignIn(message: String) {
-        let alert = UIAlertController(title: "Sign in error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        let alert = ErrorAlert.shared.show(title: "Sign in error", errorMessage: message)
         present(alert, animated: true)
     }
 }
 
 extension EmailSignViewController: UITextFieldDelegate {
-    // when we have red border - make it clear
-    // make it when we want to type again or make it with animation
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField.accessibilityIdentifier {
+        case emailTextFieldIdentifier:
+            if wasEmailError {
+                textField.clearError()
+                emailErrorLabel.text = ""
+                wasEmailError = false
+            }
+        case passwordTextFieldIdentifier:
+            if wasPasswordError {
+                textField.clearError()
+                passwordErrorLabel.text = ""
+                wasPasswordError = false
+            }
+        default:
+            let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: "WUUUT ur u doing?")
+            present(alert, animated: true)
+        }
+    }
 }

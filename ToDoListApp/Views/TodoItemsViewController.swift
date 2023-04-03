@@ -33,6 +33,8 @@ class TodoItemsViewController: UITableViewController {
         super.viewWillDisappear(animated)
     }
 
+    
+    //TODO: change to another view without alert with textField
     @objc private func addItemClicked() {
         var itemNameTextField = UITextField()
         let addItemAlert = UIAlertController(title: "Add item", message: "Enter the name to the new item", preferredStyle: .alert)
@@ -72,6 +74,11 @@ class TodoItemsViewController: UITableViewController {
 }
 
 extension TodoItemsViewController: TodoItemPresenterDelegate {
+    func didGetError(message: String) {
+        let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: message)
+        present(alert, animated: true)
+    }
+    
     func didCategoryWasChanged() {
         todoItems = []
         tableView.reloadData()

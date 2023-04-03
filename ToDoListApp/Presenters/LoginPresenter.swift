@@ -10,7 +10,7 @@ import FirebaseCore
 import GoogleSignIn
 import UIKit
 
-protocol GoogleLoginDelegate: BasePresenterDelegate {
+protocol LoginViewDelagate: BasePresenterDelegate {
     func didSignInSuccessfully(user: User)
     func signInError(message: String)
 }
@@ -28,14 +28,14 @@ class LoginPresenter: BasePresenter {
 
             Auth.auth().signIn(with: credential) {_, error in
                 guard error == nil else {
-                    (self?.delegate as? GoogleLoginDelegate)?.signInError(message: error!.localizedDescription)
+                    (self?.delegate as? LoginViewDelagate)?.signInError(message: error!.localizedDescription)
                     return
                 }
 
                 if let result = result {
                     let user = User(name: result.user.userID!, email: result.user.profile!.email)
                     UserManager.shared.setUser(user: user)
-                    (self?.delegate as? GoogleLoginDelegate)?.didSignInSuccessfully(user: user)
+                    (self?.delegate as? LoginViewDelagate)?.didSignInSuccessfully(user: user)
                 }
             }
         }
