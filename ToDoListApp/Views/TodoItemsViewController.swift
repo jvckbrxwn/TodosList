@@ -32,7 +32,6 @@ class TodoItemsViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-
     
     //TODO: change to another view without alert with textField
     @objc private func addItemClicked() {
