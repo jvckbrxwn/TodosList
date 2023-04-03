@@ -11,6 +11,7 @@ struct UserManager {
     private var user: User?
     
     mutating func setUser(user: User){
+        print(user)
         self.user = user
     }
     

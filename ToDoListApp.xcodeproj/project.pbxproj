@@ -157,7 +157,6 @@
 				04F92CFF29C3A61F00BFEBA5 /* LoginViewController.swift */,
 				04EC001229C8920C00232477 /* TodoViewController.swift */,
 				04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */,
-				04851A9229DAB99D003A38F8 /* ErrorAlert.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -170,6 +169,7 @@
 				04F92CFD29C3A61F00BFEBA5 /* SceneDelegate.swift */,
 				04F92D0629C3A62200BFEBA5 /* LaunchScreen.storyboard */,
 				04CD4B0F29D5B16F00317436 /* SupportingExtentions.swift */,
+				04851A9229DAB99D003A38F8 /* ErrorAlert.swift */,
 				04CD4B1229D5B32400317436 /* Validator.swift */,
 			);
 			path = "Supporting Files";
@@ -480,8 +480,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LIBTOOLFLAGS = "-WLinkingC true -XCBuildForPre true -XCExpApple true";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kk54.ToDoListApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -512,8 +516,12 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LIBTOOLFLAGS = "-WLinkingC true -XCBuildForPre true -XCExpApple true";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kk54.ToDoListApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

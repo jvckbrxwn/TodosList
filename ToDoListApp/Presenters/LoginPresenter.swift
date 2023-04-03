@@ -16,6 +16,13 @@ protocol LoginViewDelagate: BasePresenterDelegate {
 }
 
 class LoginPresenter: BasePresenter {
+    internal func checkIfUserLoggedIn(){
+        if let currentUser = Auth.auth().currentUser {
+            let user = User(name: currentUser.uid, email: currentUser.email!)
+            (self.delegate as? LoginViewDelagate)?.didSignInSuccessfully(user: user)
+        }
+    }
+    
     internal func signInWithGoogle() {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
@@ -34,7 +41,6 @@ class LoginPresenter: BasePresenter {
 
                 if let result = result {
                     let user = User(name: result.user.userID!, email: result.user.profile!.email)
-                    UserManager.shared.setUser(user: user)
                     (self?.delegate as? LoginViewDelagate)?.didSignInSuccessfully(user: user)
                 }
             }

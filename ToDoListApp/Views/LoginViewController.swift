@@ -67,6 +67,10 @@ class LoginViewController: UIViewController {
         initUI()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        loginPresenter.checkIfUserLoggedIn()
+    }
+
     private func initUI() {
         view.addSubview(stackViewForButtons)
 
@@ -91,12 +95,12 @@ extension LoginViewController {
         if let sheet = emailSheetNav.sheetPresentationController {
             if #available(iOS 16.0, *) {
                 sheet.detents = [.custom {
-                    _ in 350
+                    _ in 360
                 }]
             } else {
                 sheet.detents = [.medium()]
             }
-            //sheet.prefersGrabberVisible = true
+            // sheet.prefersGrabberVisible = true
         }
         present(emailSheetNav, animated: true)
     }
