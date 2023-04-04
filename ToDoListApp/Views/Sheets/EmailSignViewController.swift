@@ -9,7 +9,6 @@ import UIKit
 
 class EmailSignViewController: UIViewController {
     internal weak var loginDelegate: LoginViewDelagate?
-    private let emailPresenter = EmailSignPresenter()
 
     private var wasEmailError: Bool = false // TODO: Change it asap. Too bad idea
     private var wasPasswordError: Bool = false // TODO: Change it asap. Too bad idea
@@ -137,7 +136,6 @@ class EmailSignViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        emailPresenter.setDelegate(delegate: self)
         emailTextField.delegate = self
         passwordTextField.delegate = self
         initUI()
@@ -196,25 +194,11 @@ class EmailSignViewController: UIViewController {
 
         let email = emailTextField.text!
         let password = passwordTextField.text!
-        emailPresenter.signIn(email: email, password: password)
+        //emailPresenter.signIn(email: email, password: password)
     }
 
     @objc private func hideView() {
         dismiss(animated: true)
-    }
-}
-
-// MARK: - Email sign in delegate functions
-
-extension EmailSignViewController: EmailSignDelegate {
-    func didSignIn(user: User) {
-        loginDelegate?.didSignInSuccessfully(user: user)
-        dismiss(animated: true)
-    }
-
-    func errorSignIn(message: String) {
-        let alert = ErrorAlert.shared.show(title: "Sign in error", errorMessage: message)
-        present(alert, animated: true)
     }
 }
 
