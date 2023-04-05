@@ -11,7 +11,9 @@
 		04093EAC29C9A91200E3669A /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04093EAB29C9A91200E3669A /* BasePresenter.swift */; };
 		04093EAE29C9B51700E3669A /* TodoItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */; };
 		0436DA3329C49CD400BC0492 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */; };
-		0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */; };
+		043F16EB29DD53DF0028E0F5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043F16EA29DD53DF0028E0F5 /* RegistrationViewController.swift */; };
+		043F16ED29DD53F00028E0F5 /* RegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043F16EC29DD53F00028E0F5 /* RegistrationPresenter.swift */; };
+		043F16EF29DD66070028E0F5 /* RegisterStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 043F16EE29DD66070028E0F5 /* RegisterStoryboard.storyboard */; };
 		047AA37C29CB3EB000469539 /* TodoItemPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */; };
 		04851A9329DAB99D003A38F8 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04851A9229DAB99D003A38F8 /* ErrorAlert.swift */; };
 		04C4923829DC0D17006A0EBB /* TestDeleteStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04C4923729DC0D17006A0EBB /* TestDeleteStoryboard.storyboard */; };
@@ -36,7 +38,9 @@
 		04093EAB29C9A91200E3669A /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
 		04093EAD29C9B51700E3669A /* TodoItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemsViewController.swift; sourceTree = "<group>"; };
 		0436DA3229C49CD300BC0492 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignViewController.swift; sourceTree = "<group>"; };
+		043F16EA29DD53DF0028E0F5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		043F16EC29DD53F00028E0F5 /* RegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationPresenter.swift; sourceTree = "<group>"; };
+		043F16EE29DD66070028E0F5 /* RegisterStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RegisterStoryboard.storyboard; sourceTree = "<group>"; };
 		047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemPresenter.swift; sourceTree = "<group>"; };
 		04851A9229DAB99D003A38F8 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		04C4923729DC0D17006A0EBB /* TestDeleteStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestDeleteStoryboard.storyboard; sourceTree = "<group>"; };
@@ -83,7 +87,7 @@
 		043CC32B29D431BC0076A698 /* Sheets */ = {
 			isa = PBXGroup;
 			children = (
-				0436DA3B29C4A80300BC0492 /* EmailSignViewController.swift */,
+				043F16EA29DD53DF0028E0F5 /* RegistrationViewController.swift */,
 			);
 			path = Sheets;
 			sourceTree = "<group>";
@@ -113,6 +117,7 @@
 				04EC001629C8B7E900232477 /* TodoPresenter.swift */,
 				04093EA829C9A0EA00E3669A /* LoginPresenter.swift */,
 				047AA37B29CB3EB000469539 /* TodoItemPresenter.swift */,
+				043F16EC29DD53F00028E0F5 /* RegistrationPresenter.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 				04851A9229DAB99D003A38F8 /* ErrorAlert.swift */,
 				04CD4B1229D5B32400317436 /* Validator.swift */,
 				04C4923729DC0D17006A0EBB /* TestDeleteStoryboard.storyboard */,
+				043F16EE29DD66070028E0F5 /* RegisterStoryboard.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -256,6 +262,7 @@
 				0436DA3329C49CD400BC0492 /* GoogleService-Info.plist in Resources */,
 				04C4923829DC0D17006A0EBB /* TestDeleteStoryboard.storyboard in Resources */,
 				04EC001129C85ED100232477 /* Assets.xcassets in Resources */,
+				043F16EF29DD66070028E0F5 /* RegisterStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,12 +323,13 @@
 				04E49D1F29CC45A90099C393 /* UserManager.swift in Sources */,
 				04093EA929C9A0EA00E3669A /* LoginPresenter.swift in Sources */,
 				04EC000929C7853600232477 /* AutoLayoutProperty.swift in Sources */,
-				0436DA3C29C4A80300BC0492 /* EmailSignViewController.swift in Sources */,
 				04EC001529C8B1B700232477 /* Todo.swift in Sources */,
 				04F92D0029C3A61F00BFEBA5 /* LoginViewController.swift in Sources */,
 				04F92CFC29C3A61F00BFEBA5 /* AppDelegate.swift in Sources */,
+				043F16EB29DD53DF0028E0F5 /* RegistrationViewController.swift in Sources */,
 				04CD4B1329D5B32400317436 /* Validator.swift in Sources */,
 				04F92CFE29C3A61F00BFEBA5 /* SceneDelegate.swift in Sources */,
+				043F16ED29DD53F00028E0F5 /* RegistrationPresenter.swift in Sources */,
 				04EC001729C8B7E900232477 /* TodoPresenter.swift in Sources */,
 				04EC000F29C855EA00232477 /* User.swift in Sources */,
 				047AA37C29CB3EB000469539 /* TodoItemPresenter.swift in Sources */,

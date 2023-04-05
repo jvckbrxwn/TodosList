@@ -80,6 +80,7 @@ class LoginViewController: UIViewController {
         field.textContentType = .emailAddress
         field.keyboardType = .emailAddress
         field.borderStyle = .roundedRect
+        field.autocapitalizationType = .none
         return field
     }()
 
@@ -188,7 +189,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         loginPresenter.delegate = self
         initUI()
-        initKeyboardShowState()
+        // initKeyboardShowState()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -246,7 +247,7 @@ extension LoginViewController {
     }
 
     @objc func keyboardWillHide(_ notification: NSNotification) {
-        self.view.frame.origin.y = 0
+        view.frame.origin.y = 0
     }
 }
 
@@ -254,18 +255,11 @@ extension LoginViewController {
 
 extension LoginViewController {
     @objc private func sighInWithEmail() {
-        if Validator.shared.validate(email: emailTextField.text!) == false {
-            // TODO: temporary version
-            let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: "Email is not valid")
-            present(alert, animated: true)
-            // emailTextField.setError(errorLabel: emailErrorLabel, message: "Email is not valid")
-            return
-        }
-        if Validator.shared.validate(password: passwordTextField.text!) == false {
-            // TODO: temporary version
-            let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: "Password cannot be empty")
-            present(alert, animated: true)
-            // passwordTextField.setError(errorLabel: passwordErrorLabel, message: "Password cannot be empty")
+        let emailValidationResult = Validator.shared.validate(email: emailTextField.text!)
+        let passwordValidationResult = Validator.shared.validate(password: passwordTextField.text!)
+
+        // TODO: add error textfields animations
+        if !emailValidationResult.state || !passwordValidationResult.state {
             return
         }
 
@@ -283,11 +277,16 @@ extension LoginViewController {
         present(ErrorAlert.shared.show(title: "Coming soon...", errorMessage: "Forgot password is not ready for now"), animated: true)
     }
 
-    // TODO: JUST DO IT!
     @objc private func createAcconut() {
-        present(ErrorAlert.shared.show(title: "Coming soon...", errorMessage: "Create account is not ready for now"), animated: true)
+        let registrationVC = UINavigationController(rootViewController: RegistrationViewController())
+        if let sheet = registrationVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        navigationController?.present(registrationVC, animated: true)
     }
 }
+
+// MARK: - Login View Delagate functions
 
 extension LoginViewController: LoginViewDelagate {
     func signInError(message: String) {
@@ -299,13 +298,5 @@ extension LoginViewController: LoginViewDelagate {
         UserManager.shared.setUser(user: user)
         let todoVC = TodoViewController()
         navigationController?.pushViewController(todoVC, animated: true)
-    }
-}
-
-// MARK: - Simple helpers
-
-extension LoginViewController {
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
     }
 }
