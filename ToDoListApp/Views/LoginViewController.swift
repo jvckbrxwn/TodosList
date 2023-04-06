@@ -84,6 +84,14 @@ class LoginViewController: UIViewController {
         return field
     }()
 
+    private lazy var emailErrorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Avenir Book", size: 8)
+        label.textColor = UIColor.red
+        return label
+    }()
+
     private lazy var passwordTextField: UITextField = {
         let field = UITextField()
         field.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +99,14 @@ class LoginViewController: UIViewController {
         field.borderStyle = .roundedRect
         field.isSecureTextEntry = true
         return field
+    }()
+
+    private lazy var passwordErrorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Avenir Book", size: 8)
+        label.textColor = UIColor.red
+        return label
     }()
 
     private lazy var textFieldsView: UIView = {
@@ -115,8 +131,10 @@ class LoginViewController: UIViewController {
 
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
+        view.addSubview(emailErrorLabel)
         view.addSubview(passwordLabel)
         view.addSubview(passwordTextField)
+        view.addSubview(passwordErrorLabel)
         view.addSubview(forgotPasswordButton)
 
         NSLayoutConstraint.activate([
@@ -129,12 +147,22 @@ class LoginViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: emailTextField.trailingAnchor, constant: 5),
             emailTextField.heightAnchor.constraint(equalToConstant: 35),
 
+            emailErrorLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor),
+            emailErrorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            view.trailingAnchor.constraint(equalTo: emailErrorLabel.trailingAnchor, constant: 5),
+            emailErrorLabel.heightAnchor.constraint(equalToConstant: 10),
+
             passwordLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 10),
             passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             passwordTextField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             view.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor, constant: 5),
             passwordTextField.heightAnchor.constraint(equalToConstant: 35),
+
+            passwordErrorLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor),
+            passwordErrorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            view.trailingAnchor.constraint(equalTo: passwordErrorLabel.trailingAnchor, constant: 5),
+            passwordErrorLabel.heightAnchor.constraint(equalToConstant: 10),
 
             view.bottomAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor),
             view.trailingAnchor.constraint(lessThanOrEqualTo: forgotPasswordButton.trailingAnchor, constant: 100),
@@ -188,6 +216,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginPresenter.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         initUI()
         // initKeyboardShowState()
     }
@@ -221,34 +251,6 @@ class LoginViewController: UIViewController {
             buttonsView.topAnchor.constraint(equalTo: textFieldsView.bottomAnchor, constant: 30),
         ])
     }
-
-    private func initKeyboardShowState() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-}
-
-// MARK: - Kayboard showing methods (test version)
-
-extension LoginViewController {
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            view.frame.origin.y -= keyboardSize.height
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: NSNotification) {
-        view.frame.origin.y = 0
-    }
 }
 
 // MARK: - Sign in methods
@@ -259,20 +261,18 @@ extension LoginViewController {
         let passwordValidationResult = Validator.shared.validate(password: passwordTextField.text!)
 
         if !emailValidationResult.state {
+            emailErrorLabel.text = emailValidationResult.message!
             emailTextField.setError()
         }
 
         if !passwordValidationResult.state {
+            passwordErrorLabel.text = passwordValidationResult.message!
             passwordTextField.setError()
         }
 
         if !emailValidationResult.state || !passwordValidationResult.state {
             return
         }
-
-        // TODO: change to normal state of textField when we start typing or smth similar
-        emailTextField.clearError()
-        passwordTextField.clearError()
 
         let email = emailTextField.text!
         let password = passwordTextField.text!
@@ -294,7 +294,7 @@ extension LoginViewController {
         let registrationNav = UINavigationController(rootViewController: registrationVC)
         if let sheet = registrationNav.sheetPresentationController {
             if #available(iOS 16.0, *) {
-                sheet.detents = [.custom { _ in 320 }]
+                sheet.detents = [.custom { _ in 350 }]
             } else {
                 sheet.detents = [.medium()]
             }
@@ -322,5 +322,17 @@ extension LoginViewController: LoginViewDelagate {
 extension LoginViewController: RegistrationViewControllerDelegate {
     func didRegisterSuccessfully(user: User) {
         didSignInSuccessfully(user: user)
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.clearError()
+        if textField.textContentType == .emailAddress {
+            emailErrorLabel.text = ""
+        } else if textField.textContentType == .password {
+            passwordErrorLabel.text = ""
+        }
+        return true
     }
 }

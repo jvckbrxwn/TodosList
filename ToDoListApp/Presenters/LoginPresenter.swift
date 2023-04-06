@@ -47,14 +47,14 @@ class LoginPresenter: BasePresenter {
             guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
             let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
 
-            Auth.auth().signIn(with: credential) { _, error in
+            Auth.auth().signIn(with: credential) { user, error in
                 guard error == nil else {
                     (self?.delegate as? LoginViewDelagate)?.signInError(message: error!.localizedDescription)
                     return
                 }
 
-                if let result = result {
-                    let user = User(name: result.user.userID!, email: result.user.profile!.email)
+                if let strongUser = user {
+                    let user = User(name: strongUser.user.uid, email: strongUser.user.email!)
                     (self?.delegate as? LoginViewDelagate)?.didSignInSuccessfully(user: user)
                 }
             }
