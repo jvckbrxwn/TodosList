@@ -8,37 +8,45 @@
 import UIKit
 
 extension UITextField {
+    func setError() {
+        errorAnimation()
+    }
+
     func setError(errorLabel label: UILabel, message: String) {
         // show redborder and small label that email is not valid
-        
-        let borderColorAnim = CAKeyframeAnimation(keyPath: "borderColor")
-        borderColorAnim.duration = 0.5
-        borderColorAnim.values = [UIColor.clear.cgColor, UIColor.red.cgColor]
-        borderColorAnim.repeatCount = 1
-        layer.add(borderColorAnim, forKey: "borderColor")
-        layer.borderColor = UIColor.red.cgColor
-
-        let borderWidthAnim = CAKeyframeAnimation(keyPath: "borderWidth")
-        borderWidthAnim.duration = 0.5
-        borderWidthAnim.values = [0, 1]
-        borderWidthAnim.repeatCount = 1
-        layer.add(borderWidthAnim, forKey: "borderWidth")
-        layer.borderWidth = 1
-
+        errorAnimation()
         label.text = message
     }
 
     func clearError() {
-        let borderColorAnim = CAKeyframeAnimation(keyPath: "borderColor")
-        borderColorAnim.duration = 0.5
-        borderColorAnim.values = [UIColor.red.cgColor, UIColor.clear.cgColor]
-        layer.add(borderColorAnim, forKey: "borderColor")
-        layer.borderColor = UIColor.clear.cgColor
+        errorColorAimationFade(key: "borderColor", from: UIColor.red.cgColor, to: UIColor.clear.cgColor)
+        errorBorderAimationFade(key: "borderWidth", from: 1, to: 0)
+    }
 
-        let borderWidthAnim = CAKeyframeAnimation(keyPath: "borderWidth")
-        borderWidthAnim.duration = 0.5
-        borderWidthAnim.values = [1, 0]
-        layer.add(borderWidthAnim, forKey: "borderWidth")
-        layer.borderWidth = 0
+    private func errorAnimation() {
+        errorColorAimationFade(key: "borderColor", from: UIColor.clear.cgColor, to: UIColor.red.cgColor)
+        errorBorderAimationFade(key: "borderWidth", from: 0, to: 1)
+    }
+
+    private func errorColorAimationFade(key: String, from startColor: CGColor, to endColor: CGColor, duration: Double = 0.3) {
+        guard layer.borderColor != endColor else { return }
+
+        let borderColorAnim = CAKeyframeAnimation(keyPath: key)
+        borderColorAnim.duration = duration
+        borderColorAnim.values = [startColor, endColor]
+        borderColorAnim.repeatCount = 1
+        layer.add(borderColorAnim, forKey: key)
+        layer.borderColor = endColor
+    }
+
+    private func errorBorderAimationFade(key: String, from startValue: Float, to endValue: Float, duration: Double = 0.3) {
+        guard layer.borderWidth != CGFloat(endValue) else { return }
+
+        let borderWidthAnim = CAKeyframeAnimation(keyPath: key)
+        borderWidthAnim.duration = duration
+        borderWidthAnim.values = [startValue, endValue]
+        borderWidthAnim.repeatCount = 1
+        layer.add(borderWidthAnim, forKey: key)
+        layer.borderWidth = CGFloat(endValue)
     }
 }

@@ -36,7 +36,7 @@ internal struct Validator {
     }
 
     func validate(password: String, confirmPassword: String) -> ValidationResult {
-        let state = password.compare(confirmPassword, options: .caseInsensitive) == .orderedSame
+        let state = password != "" && confirmPassword != "" && password.compare(confirmPassword, options: .caseInsensitive) == .orderedSame
         print("\(#function) tells passwords compare state is \(state)")
         return ValidationResult(state: state, message: state ? "" : "Passwords are not matching")
     }

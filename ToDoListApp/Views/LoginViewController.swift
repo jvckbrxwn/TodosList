@@ -258,14 +258,25 @@ extension LoginViewController {
         let emailValidationResult = Validator.shared.validate(email: emailTextField.text!)
         let passwordValidationResult = Validator.shared.validate(password: passwordTextField.text!)
 
-        // TODO: add error textfields animations
+        if !emailValidationResult.state {
+            emailTextField.setError()
+        }
+
+        if !passwordValidationResult.state {
+            passwordTextField.setError()
+        }
+
         if !emailValidationResult.state || !passwordValidationResult.state {
             return
         }
 
+        // TODO: change to normal state of textField when we start typing or smth similar
+        emailTextField.clearError()
+        passwordTextField.clearError()
+
         let email = emailTextField.text!
         let password = passwordTextField.text!
-        loginPresenter.signInWithEmail(email: email, password: password)
+        loginPresenter.signInWithEmail(email, password)
     }
 
     @objc private func signInWithGoogle() {
@@ -282,7 +293,7 @@ extension LoginViewController {
         if let sheet = registrationVC.sheetPresentationController {
             sheet.detents = [.medium()]
         }
-        navigationController?.present(registrationVC, animated: true)
+        present(registrationVC, animated: true)
     }
 }
 

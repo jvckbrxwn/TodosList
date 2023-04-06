@@ -23,7 +23,7 @@ class LoginPresenter: BasePresenter {
         }
     }
 
-    internal func signInWithEmail(email: String, password: String) {
+    internal func signInWithEmail(_ email: String, _ password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] data, error in
             if let safeData = data, error == nil {
                 let user = User(name: safeData.user.uid, email: safeData.user.email!)

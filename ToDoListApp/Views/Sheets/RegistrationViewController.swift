@@ -10,7 +10,7 @@ import UIKit
 class RegistrationViewController: UIViewController {
     private lazy var mainFont = UIFont(name: "Avenir Heavy", size: 14)
     private lazy var secondaryFont = UIFont(name: "Avenir Book", size: 14)
-    private lazy var presetner = RegistrationPresenter()
+    private lazy var registrationPresetner = RegistrationPresenter()
 
     private lazy var emailTextField: UITextField = {
         let field = UITextField()
@@ -118,6 +118,7 @@ class RegistrationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        registrationPresetner.delegate = self
         initUI()
     }
 
@@ -140,23 +141,28 @@ class RegistrationViewController: UIViewController {
         let passwordValidationResult = Validator.shared.validate(password: passwordTextField.text!)
         let confirmValidationResult = Validator.shared.validate(password: passwordTextField.text!, confirmPassword: confirmTextField.text!)
 
-        // TODO: add error textfields animations
+        if !emailValidationResult.state {
+            emailTextField.setError()
+        }
+        
+        if !passwordValidationResult.state {
+            passwordTextField.setError()
+        }
+        
+        if !confirmValidationResult.state {
+            confirmTextField.setError()
+        }
+        
         if !emailValidationResult.state || !passwordValidationResult.state || !confirmValidationResult.state {
             return
         }
-//        if Validator.shared.validate(email: emailTextField.text!) == false {
-//            return
-//        }
-//
-//        if Validator.shared.validate(password: passwordTextField.text!) == false {
-//            return
-//        }
-//
-//        if Validator.shared.validate(password: passwordTextField.text!, confirmPassword: confirmTextField.text!) == false {
-//            return
-//        }
+        
+        // TODO: change to normal state of textField when we start typing or smth similar
+        emailTextField.clearError()
+        passwordTextField.clearError()
+        confirmTextField.clearError()
 
-        presetner.register(emailTextField.text!, passwordTextField.text!)
+        registrationPresetner.register(emailTextField.text!, passwordTextField.text!)
     }
 
     @objc private func dismissView() {
@@ -169,6 +175,9 @@ class RegistrationViewController: UIViewController {
 extension RegistrationViewController: RegistrationPresenterDelegate {
     func didRegisterSuccessfully(user: User) {
         UserManager.shared.setUser(user: user)
+        let todoVC = TodoViewController()
+        navigationController?.pushViewController(todoVC, animated: true)
+        dismissView()
     }
 
     func didRegisterError(message: String) {
