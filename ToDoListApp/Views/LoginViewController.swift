@@ -289,11 +289,17 @@ extension LoginViewController {
     }
 
     @objc private func createAcconut() {
-        let registrationVC = UINavigationController(rootViewController: RegistrationViewController())
-        if let sheet = registrationVC.sheetPresentationController {
-            sheet.detents = [.medium()]
+        let registrationVC = RegistrationViewController()
+        registrationVC.delegate = self
+        let registrationNav = UINavigationController(rootViewController: registrationVC)
+        if let sheet = registrationNav.sheetPresentationController {
+            if #available(iOS 16.0, *) {
+                sheet.detents = [.custom { _ in 320 }]
+            } else {
+                sheet.detents = [.medium()]
+            }
         }
-        present(registrationVC, animated: true)
+        present(registrationNav, animated: true)
     }
 }
 
@@ -309,5 +315,12 @@ extension LoginViewController: LoginViewDelagate {
         UserManager.shared.setUser(user: user)
         let todoVC = TodoViewController()
         navigationController?.pushViewController(todoVC, animated: true)
+    }
+}
+
+// TODO: find another way to communicate between views
+extension LoginViewController: RegistrationViewControllerDelegate {
+    func didRegisterSuccessfully(user: User) {
+        didSignInSuccessfully(user: user)
     }
 }

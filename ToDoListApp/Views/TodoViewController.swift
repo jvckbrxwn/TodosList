@@ -64,7 +64,7 @@ extension TodoViewController: TodoPresenterDelegate {
         let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: message)
         present(alert, animated: true)
     }
-    
+
     func didGetTodosSuccessully(todos: [Todo]) {
         self.todos = todos
         tableView.reloadData()
@@ -84,7 +84,7 @@ extension TodoViewController {
         }
     }
 
-    //TODO: change to another view without alert with textFields
+    // TODO: change to another view without alert with textFields
     @objc private func addCategoryClicked() {
         var categoryNameTextField = UITextField()
         let addCategoryAlert = UIAlertController(title: "Add category", message: "Enter the name to the new category", preferredStyle: .alert)

@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol RegistrationViewControllerDelegate: AnyObject {
+    func didRegisterSuccessfully(user: User)
+}
+
 class RegistrationViewController: UIViewController {
     private lazy var mainFont = UIFont(name: "Avenir Heavy", size: 14)
     private lazy var secondaryFont = UIFont(name: "Avenir Book", size: 14)
     private lazy var registrationPresetner = RegistrationPresenter()
+    internal weak var delegate: RegistrationViewControllerDelegate?
 
     private lazy var emailTextField: UITextField = {
         let field = UITextField()
@@ -174,9 +179,7 @@ class RegistrationViewController: UIViewController {
 
 extension RegistrationViewController: RegistrationPresenterDelegate {
     func didRegisterSuccessfully(user: User) {
-        UserManager.shared.setUser(user: user)
-        let todoVC = TodoViewController()
-        navigationController?.pushViewController(todoVC, animated: true)
+        delegate?.didRegisterSuccessfully(user: user)
         dismissView()
     }
 
