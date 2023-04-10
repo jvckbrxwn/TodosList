@@ -21,7 +21,7 @@ protocol TodoItemPresenterDelegate: BasePresenterDelegate {
 class TodoItemPresenter: BasePresenter {
     private let db = Firestore.firestore()
     private var itemsListener: ListenerRegistration?
-    private var userInfo: User?
+    private var user: User?
 
     internal var selectedCategory: String? {
         didSet {
@@ -37,7 +37,7 @@ class TodoItemPresenter: BasePresenter {
     internal func addItem(_ item: TodoItem) {
         isUserAvailable {
             do {
-                try db.collection(userInfo!.email).document(selectedCategory!).collection("todos").addDocument(from: item)
+                try db.collection(user!.email).document(selectedCategory!).collection("todos").addDocument(from: item)
             } catch {
                 (delegate as? TodoItemPresenterDelegate)?.didGetError(message: error.localizedDescription)
             }
@@ -48,7 +48,7 @@ class TodoItemPresenter: BasePresenter {
         isUserAvailable {
             do {
                 if let docID = item.id {
-                    try db.collection(userInfo!.email).document(selectedCategory!).collection("todos").document(docID).setData(from: item)
+                    try db.collection(user!.email).document(selectedCategory!).collection("todos").document(docID).setData(from: item)
                 }
             } catch {
                 (delegate as? TodoItemPresenterDelegate)?.didGetError(message: error.localizedDescription)
@@ -59,7 +59,7 @@ class TodoItemPresenter: BasePresenter {
     internal func deleteItem(_ item: TodoItem) {
         isUserAvailable {
             guard let docID = item.id else { return } // I think there is no reason to inform user about id's stuff, imho
-            db.collection(userInfo!.email).document(selectedCategory!).collection("todos").document(docID).delete {
+            db.collection(user!.email).document(selectedCategory!).collection("todos").document(docID).delete {
                 error in
                 guard let error = error else { return }
                 (self.delegate as? TodoItemPresenterDelegate)?.didGetError(message: error.localizedDescription)
@@ -69,7 +69,7 @@ class TodoItemPresenter: BasePresenter {
 
     private func getItems() {
         isUserAvailable {
-            db.collection(userInfo!.email).document(selectedCategory!).collection("todos").getDocuments { [weak self] snapshot, _ in
+            db.collection(user!.email).document(selectedCategory!).collection("todos").getDocuments { [weak self] snapshot, _ in
                 guard let snapshot = snapshot else { return }
                 do {
                     var items = [TodoItem]()
@@ -84,7 +84,7 @@ class TodoItemPresenter: BasePresenter {
 
     private func initListener() {
         isUserAvailable {
-            itemsListener = db.collection(userInfo!.email).document(selectedCategory!)
+            itemsListener = db.collection(user!.email).document(selectedCategory!)
                 .collection("todos").addSnapshotListener { [weak self] snapshot, _ in
                     guard let snapshot = snapshot else { return }
                     snapshot.documentChanges.forEach({ diff in
@@ -109,12 +109,12 @@ class TodoItemPresenter: BasePresenter {
     }
 
     private func isUserAvailable(_ completition: () -> Void) {
-        guard let userInfo = UserManager.shared.getUserInfo() else {
+        guard let user = UserManager.shared.currentUser else {
             (delegate as? TodoItemPresenterDelegate)?.didGetError(message: "User is not logged in")
             return
         }
 
-        self.userInfo = userInfo
+        self.user = user
         completition()
     }
 }

@@ -54,6 +54,20 @@ struct UITextFieldSettings {
 }
 
 struct UIBuilder {
+    internal enum FontKey{
+        case main, error, secondary
+    }
+    
+    private static var mainFont = UIFont(name: "Avenir Heavy", size: 14)
+    private static var errorFont = UIFont(name: "Avenir Heavy", size: 8)
+    private static var secondaryFont = UIFont(name: "Avenir Book", size: 14)
+    
+    private static var fontDict: [FontKey: UIFont] = [
+        .main: mainFont!,
+        .secondary: secondaryFont!,
+        .error: errorFont!,
+    ]
+    
     static func getLabel(set settings: UILabelSettings) -> UILabel {
         let label = UILabel()
         label.text = settings.text
@@ -66,8 +80,8 @@ struct UIBuilder {
 
     static func getButton(set settings: UIButtonSettings) -> UIButton {
         let button = UIButton(type: settings.type)
-        button.titleLabel?.font = settings.font
         button.setTitle(settings.title, for: .normal)
+        button.titleLabel?.font = settings.font!
         button.setTitleColor(settings.titleColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: settings.action, for: .touchUpInside)
@@ -82,6 +96,11 @@ struct UIBuilder {
         field.borderStyle = settings.borderStyle
         field.autocapitalizationType = settings.autocapitalization
         field.placeholder = settings.placeholder
+        field.isSecureTextEntry = settings.isSecureTextEntry
         return field
+    }
+
+    static func getFont(type: FontKey, withSize size: CGFloat) -> UIFont? {
+        return fontDict[type]?.withSize(size)
     }
 }

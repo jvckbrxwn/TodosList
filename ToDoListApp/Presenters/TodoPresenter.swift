@@ -17,12 +17,11 @@ class TodoPresenter: BasePresenter {
     private let dataBase = Firestore.firestore()
 
     internal func getTodos() {
-        guard let user = UserManager.shared.getUserInfo() else { return }
+        guard let user = UserManager.shared.currentUser else { return }
 
         var todoNames = [Todo]()
         dataBase.collection(user.email).getDocuments { [weak self] snapshot, error in
             guard error == nil, let snapshot = snapshot else {
-                // let message = "Can't get documents in \(String(describing: self)) in function \(#function)"
                 (self?.delegate as? TodoPresenterDelegate)?.didGetError(message: error!.localizedDescription)
                 return
             }
@@ -36,7 +35,7 @@ class TodoPresenter: BasePresenter {
     }
 
     internal func addTodo(name: String) {
-        guard let user = UserManager.shared.getUserInfo() else { return }
+        guard let user = UserManager.shared.currentUser else { return }
 
         dataBase.collection(user.email).document(name).setData([:]) { [weak self] error in
             guard error == nil else {
@@ -48,7 +47,7 @@ class TodoPresenter: BasePresenter {
     }
 
     internal func deleteTodo(name: String, handler: @escaping () -> Void) {
-        guard let user = UserManager.shared.getUserInfo() else { return }
+        guard let user = UserManager.shared.currentUser else { return }
 
         let docRef = dataBase.collection(user.email).document(name)
 

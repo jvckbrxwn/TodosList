@@ -12,18 +12,19 @@ import UIKit
 
 class LoginViewController: UIViewController {
     private lazy var loginPresenter: LoginPresenter = LoginPresenter()
+    private lazy var secondaryFont = UIBuilder.getFont(type: .secondary, withSize: 14)
+    private lazy var errorFont = UIBuilder.getFont(type: .error, withSize: 8)
+    private lazy var mainFont = UIBuilder.getFont(type: .main, withSize: 14)
 
     private lazy var welcomeView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        var welcomeLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Heavy", size: 22), text: "Welcome to Todo List,\nSign in to Continue."))
+        var welcomeLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIBuilder.getFont(type: .main, withSize: 22), text: "Welcome to Todo List,\nSign in to Continue."))
+        var dontHaveAccLabel = UIBuilder.getLabel(set: UILabelSettings(font: secondaryFont, text: "Don't have an account?"))
+        var itTakesLabel = UIBuilder.getLabel(set: UILabelSettings(font: secondaryFont, text: "It takes less than a minute"))
 
-        var dontHaveAccLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Book", size: 14), text: "Don't have an account?"))
-
-        var itTakesLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Book", size: 14), text: "It takes less than a minute"))
-
-        let createAccountButton = UIBuilder.getButton(set: UIButtonSettings(font: UIFont(name: "Avenir Book", size: 14), title: "Create an account", titleColor: UIColor(named: "AccentColor"), action: #selector(createAcconut)))
+        let createAccountButton = UIBuilder.getButton(set: UIButtonSettings(font: secondaryFont, title: "Create an account", titleColor: UIColor(named: "AccentColor"), action: #selector(createAcconut)))
 
         view.addSubview(welcomeLabel)
         view.addSubview(dontHaveAccLabel)
@@ -61,21 +62,23 @@ class LoginViewController: UIViewController {
 
     private lazy var emailTextField: UITextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .emailAddress, keyboardType: .emailAddress))
 
-    private lazy var emailErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Book", size: 8), textColor: UIColor.red))
+    private lazy var emailErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: UIColor.red))
 
     private lazy var passwordTextField: UITextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .password, isSecureTextEntry: true))
 
-    private lazy var passwordErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Book", size: 8), textColor: UIColor.red))
+    private lazy var passwordErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: UIColor.red))
 
     private lazy var textFieldsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let emailLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Heavy", size: 14), text: "Email"))
+        let emailLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Email"))
+        let passwordLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Password"))
 
-        let passwordLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIFont(name: "Avenir Heavy", size: 14), text: "Password"))
+        let forgotPasswordButton = UIBuilder.getButton(set: UIButtonSettings(type: .system, font: secondaryFont, title: "Forgot password?", titleColor: UIColor(named: "AccentColor"), action: #selector(forgotPassword)))
 
-        let forgotPasswordButton = UIBuilder.getButton(set: UIButtonSettings(type: .system, font: UIFont(name: "Avenir Book", size: 14), title: "Forgot password?", titleColor: UIColor(named: "AccentColor"), action: #selector(forgotPassword)))
-
+        emailTextField.font = secondaryFont
+        passwordTextField.font = secondaryFont
+        
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
         view.addSubview(emailErrorLabel)
@@ -124,11 +127,11 @@ class LoginViewController: UIViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let signInButton = UIBuilder.getButton(set: UIButtonSettings(font: nil, title: "Sign In", titleColor: nil, action: #selector(sighInWithEmail)))
+        let signInButton = UIBuilder.getButton(set: UIButtonSettings(font:  UIBuilder.getFont(type: .main, withSize: 22), title: "Sign In", titleColor: nil, action: #selector(sighInWithEmail)))
         signInButton.configuration = .filled()
         signInButton.tintColor = UIColor(named: "AccentColor")
 
-        let googleSignInButton = UIBuilder.getButton(set: UIButtonSettings(font: nil, title: "Sign In with Google", titleColor: UIColor.label, action: #selector(signInWithGoogle)))
+        let googleSignInButton = UIBuilder.getButton(set: UIButtonSettings(font:  UIBuilder.getFont(type: .main, withSize: 22), title: "Sign In with Google", titleColor: UIColor.label, action: #selector(signInWithGoogle)))
         googleSignInButton.configuration = .gray()
         googleSignInButton.setImage(UIImage(named: "google.png"), for: .normal)
         googleSignInButton.configuration?.imagePadding = 10
@@ -252,7 +255,7 @@ extension LoginViewController: LoginViewDelagate {
     }
 
     func didSignInSuccessfully(user: User) {
-        UserManager.shared.setUser(user: user)
+        UserManager.shared.currentUser = user
         let todoVC = TodoViewController()
         navigationController?.pushViewController(todoVC, animated: true)
     }

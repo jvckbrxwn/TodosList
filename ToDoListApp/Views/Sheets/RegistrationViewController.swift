@@ -12,12 +12,13 @@ protocol RegistrationViewControllerDelegate: AnyObject {
 }
 
 class RegistrationViewController: UIViewController {
-    private lazy var mainFont = UIFont(name: "Avenir Heavy", size: 14)
-    private lazy var errorFont = UIFont(name: "Avenir Heavy", size: 8)
-    private lazy var secondaryFont = UIFont(name: "Avenir Book", size: 14)
-    private lazy var registrationPresetner = RegistrationPresenter()
     internal weak var delegate: RegistrationViewControllerDelegate?
 
+    private lazy var registrationPresetner = RegistrationPresenter()
+    private lazy var mainFont = UIBuilder.getFont(type: .main, withSize: 14)
+    private lazy var secondaryFont = UIBuilder.getFont(type: .secondary, withSize: 14)
+    private lazy var errorFont = UIBuilder.getFont(type: .error, withSize: 8)
+    
     private lazy var emailErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
     private lazy var passwordErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
     private lazy var confirmErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
