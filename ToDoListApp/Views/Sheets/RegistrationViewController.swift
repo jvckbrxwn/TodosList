@@ -18,62 +18,13 @@ class RegistrationViewController: UIViewController {
     private lazy var registrationPresetner = RegistrationPresenter()
     internal weak var delegate: RegistrationViewControllerDelegate?
 
-    private lazy var emailErrorLabel: UILabel = {
-        let label = UILabel()
-        label.font = errorFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
-        return label
-    }()
+    private lazy var emailErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
+    private lazy var passwordErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
+    private lazy var confirmErrorLabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: .red))
 
-    private lazy var passwordErrorLabel: UILabel = {
-        let label = UILabel()
-        label.font = errorFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
-        return label
-    }()
-
-    private lazy var confirmErrorLabel: UILabel = {
-        let label = UILabel()
-        label.font = errorFont
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
-        return label
-    }()
-
-    private lazy var emailTextField: UITextField = {
-        let field = UITextField()
-        field.font = secondaryFont
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.textContentType = .emailAddress
-        field.keyboardType = .emailAddress
-        field.borderStyle = .roundedRect
-        field.accessibilityIdentifier = "email"
-        return field
-    }()
-
-    private lazy var passwordTextField: UITextField = {
-        let field = UITextField()
-        field.font = secondaryFont
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.textContentType = .password
-        field.borderStyle = .roundedRect
-        field.isSecureTextEntry = true
-        field.accessibilityIdentifier = "password"
-        return field
-    }()
-
-    private lazy var confirmTextField: UITextField = {
-        let field = UITextField()
-        field.font = secondaryFont
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.textContentType = .password
-        field.borderStyle = .roundedRect
-        field.isSecureTextEntry = true
-        field.accessibilityIdentifier = "confirm"
-        return field
-    }()
+    private lazy var emailTextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .emailAddress, keyboardType: .emailAddress, borderStyle: .roundedRect))
+    private lazy var passwordTextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .password, borderStyle: .roundedRect, isSecureTextEntry: true))
+    private lazy var confirmTextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .password, borderStyle: .roundedRect, isSecureTextEntry: true))
 
     private lazy var registarionView: UIView = {
         let view = UIView()
@@ -81,28 +32,13 @@ class RegistrationViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemBackground
 
-        let emailLabel = UILabel()
-        emailLabel.font = mainFont
-        emailLabel.text = "Email"
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
+        let emailLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Email"))
+        let passwordLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Password"))
+        let confirmLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Confirm password"))
 
-        let passwordLabel = UILabel()
-        passwordLabel.font = mainFont
-        passwordLabel.text = "Password"
-        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let confirmLabel = UILabel()
-        confirmLabel.font = mainFont
-        confirmLabel.text = "Confirm password"
-        confirmLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        let submitButton = UIButton()
+        let submitButton = UIBuilder.getButton(set: UIButtonSettings(font: mainFont, title: "Submit", titleColor: nil, action: #selector(registration)))
         submitButton.configuration = .filled()
-        submitButton.titleLabel?.font = mainFont
-        submitButton.setTitle("Submit", for: .normal)
         submitButton.tintColor = UIColor(named: "AccentColor")
-        submitButton.translatesAutoresizingMaskIntoConstraints = false
-        submitButton.addTarget(self, action: #selector(registration), for: .touchUpInside)
 
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
@@ -114,6 +50,15 @@ class RegistrationViewController: UIViewController {
         view.addSubview(confirmTextField)
         view.addSubview(confirmErrorLabel)
         view.addSubview(submitButton)
+
+        emailTextField.font = secondaryFont
+        emailTextField.accessibilityIdentifier = "email"
+        
+        passwordTextField.font = secondaryFont
+        passwordTextField.accessibilityIdentifier = "password"
+        
+        confirmTextField.font = secondaryFont
+        confirmTextField.accessibilityIdentifier = "confirm"
 
         NSLayoutConstraint.activate([
             emailLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
