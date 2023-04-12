@@ -121,6 +121,10 @@ class RegistrationViewController: UIViewController {
         confirmTextField.delegate = self
         initUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        emailTextField.becomeFirstResponder()
+    }
 
     private func initUI() {
         title = "Register"
