@@ -19,7 +19,7 @@ internal struct ValidationResult {
 internal struct Validator {
     static let shared = Validator()
 
-    private let passwordMinLength = 6
+    private let passwordMinLength = 8
 
     private init() { }
 
@@ -32,7 +32,7 @@ internal struct Validator {
     func validate(password: String) -> ValidationResult {
         let state = password != "" && password.count >= passwordMinLength
         print("\(#function) tells password validation is \(state)")
-        return ValidationResult(state: state, message: state ? "" : "Password can't be empty or must contains more that 8 symbols")
+        return ValidationResult(state: state, message: state ? "" : "Password can't be empty or must contains more that \(passwordMinLength) symbols")
     }
 
     func validate(password: String, confirmPassword: String) -> ValidationResult {

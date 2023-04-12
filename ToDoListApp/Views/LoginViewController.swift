@@ -12,38 +12,19 @@ import UIKit
 
 class LoginViewController: UIViewController {
     private lazy var loginPresenter: LoginPresenter = LoginPresenter()
+    private lazy var secondaryFont = UIBuilder.getFont(type: .secondary, withSize: 14)
+    private lazy var errorFont = UIBuilder.getFont(type: .error, withSize: 8)
+    private lazy var mainFont = UIBuilder.getFont(type: .main, withSize: 14)
 
     private lazy var welcomeView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        var welcomeLabel = UILabel()
-        welcomeLabel.text = "Welcome to Todo List,\nSign in to Continue."
-        welcomeLabel.font = UIFont(name: "Avenir Heavy", size: 22)
-        welcomeLabel.numberOfLines = 0
-        welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
-        welcomeLabel.heightAnchor.constraint(equalToConstant: 65).isActive = true
+        var welcomeLabel = UIBuilder.getLabel(set: UILabelSettings(font: UIBuilder.getFont(type: .main, withSize: 22), text: "Welcome to Todo List,\nSign in to Continue."))
+        var dontHaveAccLabel = UIBuilder.getLabel(set: UILabelSettings(font: secondaryFont, text: "Don't have an account?"))
+        var itTakesLabel = UIBuilder.getLabel(set: UILabelSettings(font: secondaryFont, text: "It takes less than a minute"))
 
-        var dontHaveAccLabel = UILabel()
-        dontHaveAccLabel.text = "Don't have an account?"
-        dontHaveAccLabel.font = UIFont(name: "Avenir Book", size: 14)
-        dontHaveAccLabel.translatesAutoresizingMaskIntoConstraints = false
-        dontHaveAccLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-
-        var itTakesLabel = UILabel()
-        itTakesLabel.text = "It takes less than a minute"
-        itTakesLabel.font = UIFont(name: "Avenir Book", size: 14)
-        itTakesLabel.translatesAutoresizingMaskIntoConstraints = false
-        itTakesLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
-
-        let createAccountButton = UIButton(type: .system)
-        createAccountButton.titleLabel?.font = UIFont(name: "Avenir Book", size: 14)
-        createAccountButton.setTitle("Create an account", for: .normal)
-        createAccountButton.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
-        createAccountButton.translatesAutoresizingMaskIntoConstraints = false
-        createAccountButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        createAccountButton.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        createAccountButton.addTarget(self, action: #selector(createAcconut), for: .touchUpInside)
+        let createAccountButton = UIBuilder.getButton(set: UIButtonSettings(font: secondaryFont, title: "Create an account", titleColor: UIColor(named: "AccentColor"), action: #selector(createAcconut)))
 
         view.addSubview(welcomeLabel)
         view.addSubview(dontHaveAccLabel)
@@ -57,66 +38,53 @@ class LoginViewController: UIViewController {
             welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 5),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             view.trailingAnchor.constraint(equalTo: welcomeLabel.trailingAnchor, constant: 5),
+            welcomeLabel.heightAnchor.constraint(equalToConstant: 65),
 
             // dont have acc label
             dontHaveAccLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
             dontHaveAccLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            dontHaveAccLabel.heightAnchor.constraint(equalToConstant: 20),
 
             // create acc button
             createAccountButton.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
             createAccountButton.leadingAnchor.constraint(equalTo: dontHaveAccLabel.trailingAnchor),
+            createAccountButton.heightAnchor.constraint(equalToConstant: 20),
+            createAccountButton.widthAnchor.constraint(equalToConstant: 120),
 
             // it takes label
             itTakesLabel.topAnchor.constraint(equalTo: dontHaveAccLabel.bottomAnchor),
             itTakesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            itTakesLabel.heightAnchor.constraint(equalToConstant: 20),
         ])
 
         return view
     }()
 
-    private lazy var emailTextField: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.textContentType = .emailAddress
-        field.keyboardType = .emailAddress
-        field.borderStyle = .roundedRect
-        field.autocapitalizationType = .none
-        return field
-    }()
+    private lazy var emailTextField: UITextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .emailAddress, keyboardType: .emailAddress))
 
-    private lazy var passwordTextField: UITextField = {
-        let field = UITextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
-        field.textContentType = .password
-        field.borderStyle = .roundedRect
-        field.isSecureTextEntry = true
-        return field
-    }()
+    private lazy var emailErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: UIColor.red))
+
+    private lazy var passwordTextField: UITextField = UIBuilder.getTextField(set: UITextFieldSettings(type: .password, isSecureTextEntry: true))
+
+    private lazy var passwordErrorLabel: UILabel = UIBuilder.getLabel(set: UILabelSettings(font: errorFont, textColor: UIColor.red))
 
     private lazy var textFieldsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        let emailLabel = UILabel()
-        emailLabel.text = "Email"
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailLabel.font = UIFont(name: "Avenir Heavy", size: 14)
+        let emailLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Email"))
+        let passwordLabel = UIBuilder.getLabel(set: UILabelSettings(font: mainFont, text: "Password"))
 
-        let passwordLabel = UILabel()
-        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
-        passwordLabel.text = "Password"
-        passwordLabel.font = UIFont(name: "Avenir Heavy", size: 14)
+        let forgotPasswordButton = UIBuilder.getButton(set: UIButtonSettings(type: .system, font: secondaryFont, title: "Forgot password?", titleColor: UIColor(named: "AccentColor"), action: #selector(forgotPassword)))
 
-        let forgotPasswordButton = UIButton(type: .system)
-        forgotPasswordButton.translatesAutoresizingMaskIntoConstraints = false
-        forgotPasswordButton.titleLabel?.font = UIFont(name: "Avenir Book", size: 14)
-        forgotPasswordButton.setTitle("Forgot password?", for: .normal)
-        forgotPasswordButton.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
-        forgotPasswordButton.addTarget(self, action: #selector(forgotPassword), for: .touchUpInside)
-
+        emailTextField.font = secondaryFont
+        passwordTextField.font = secondaryFont
+        
         view.addSubview(emailLabel)
         view.addSubview(emailTextField)
+        view.addSubview(emailErrorLabel)
         view.addSubview(passwordLabel)
         view.addSubview(passwordTextField)
+        view.addSubview(passwordErrorLabel)
         view.addSubview(forgotPasswordButton)
 
         NSLayoutConstraint.activate([
@@ -129,12 +97,22 @@ class LoginViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: emailTextField.trailingAnchor, constant: 5),
             emailTextField.heightAnchor.constraint(equalToConstant: 35),
 
+            emailErrorLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor),
+            emailErrorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            view.trailingAnchor.constraint(equalTo: emailErrorLabel.trailingAnchor, constant: 5),
+            emailErrorLabel.heightAnchor.constraint(equalToConstant: 10),
+
             passwordLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 10),
             passwordLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             passwordTextField.topAnchor.constraint(equalTo: passwordLabel.bottomAnchor),
             passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
             view.trailingAnchor.constraint(equalTo: passwordTextField.trailingAnchor, constant: 5),
             passwordTextField.heightAnchor.constraint(equalToConstant: 35),
+
+            passwordErrorLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor),
+            passwordErrorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5),
+            view.trailingAnchor.constraint(equalTo: passwordErrorLabel.trailingAnchor, constant: 5),
+            passwordErrorLabel.heightAnchor.constraint(equalToConstant: 10),
 
             view.bottomAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor),
             view.trailingAnchor.constraint(lessThanOrEqualTo: forgotPasswordButton.trailingAnchor, constant: 100),
@@ -149,21 +127,14 @@ class LoginViewController: UIViewController {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let signInButton = UIButton()
-        signInButton.translatesAutoresizingMaskIntoConstraints = false
+        let signInButton = UIBuilder.getButton(set: UIButtonSettings(font:  UIBuilder.getFont(type: .main, withSize: 22), title: "Sign In", titleColor: nil, action: #selector(sighInWithEmail)))
         signInButton.configuration = .filled()
-        signInButton.setTitle("Sign In", for: .normal)
         signInButton.tintColor = UIColor(named: "AccentColor")
-        signInButton.addTarget(nil, action: #selector(sighInWithEmail), for: .touchUpInside)
 
-        let googleSignInButton = UIButton()
-        googleSignInButton.translatesAutoresizingMaskIntoConstraints = false
+        let googleSignInButton = UIBuilder.getButton(set: UIButtonSettings(font:  UIBuilder.getFont(type: .main, withSize: 22), title: "Sign In with Google", titleColor: UIColor.label, action: #selector(signInWithGoogle)))
         googleSignInButton.configuration = .gray()
-        googleSignInButton.setTitle("Sign In with Google", for: .normal)
-        googleSignInButton.setTitleColor(UIColor.label, for: .normal)
         googleSignInButton.setImage(UIImage(named: "google.png"), for: .normal)
         googleSignInButton.configuration?.imagePadding = 10
-        googleSignInButton.addTarget(nil, action: #selector(signInWithGoogle), for: .touchUpInside)
 
         view.addSubview(signInButton)
         view.addSubview(googleSignInButton)
@@ -188,6 +159,8 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginPresenter.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
         initUI()
         // initKeyboardShowState()
     }
@@ -221,34 +194,6 @@ class LoginViewController: UIViewController {
             buttonsView.topAnchor.constraint(equalTo: textFieldsView.bottomAnchor, constant: 30),
         ])
     }
-
-    private func initKeyboardShowState() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil)
-    }
-}
-
-// MARK: - Kayboard showing methods (test version)
-
-extension LoginViewController {
-    @objc func keyboardWillShow(_ notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            view.frame.origin.y -= keyboardSize.height
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: NSNotification) {
-        view.frame.origin.y = 0
-    }
 }
 
 // MARK: - Sign in methods
@@ -259,20 +204,18 @@ extension LoginViewController {
         let passwordValidationResult = Validator.shared.validate(password: passwordTextField.text!)
 
         if !emailValidationResult.state {
+            emailErrorLabel.text = emailValidationResult.message!
             emailTextField.setError()
         }
 
         if !passwordValidationResult.state {
+            passwordErrorLabel.text = passwordValidationResult.message!
             passwordTextField.setError()
         }
 
         if !emailValidationResult.state || !passwordValidationResult.state {
             return
         }
-
-        // TODO: change to normal state of textField when we start typing or smth similar
-        emailTextField.clearError()
-        passwordTextField.clearError()
 
         let email = emailTextField.text!
         let password = passwordTextField.text!
@@ -294,7 +237,7 @@ extension LoginViewController {
         let registrationNav = UINavigationController(rootViewController: registrationVC)
         if let sheet = registrationNav.sheetPresentationController {
             if #available(iOS 16.0, *) {
-                sheet.detents = [.custom { _ in 320 }]
+                sheet.detents = [.custom { _ in 350 }]
             } else {
                 sheet.detents = [.medium()]
             }
@@ -312,7 +255,7 @@ extension LoginViewController: LoginViewDelagate {
     }
 
     func didSignInSuccessfully(user: User) {
-        UserManager.shared.setUser(user: user)
+        UserManager.shared.currentUser = user
         let todoVC = TodoViewController()
         navigationController?.pushViewController(todoVC, animated: true)
     }
@@ -322,5 +265,17 @@ extension LoginViewController: LoginViewDelagate {
 extension LoginViewController: RegistrationViewControllerDelegate {
     func didRegisterSuccessfully(user: User) {
         didSignInSuccessfully(user: user)
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        textField.clearError()
+        if textField.textContentType == .emailAddress {
+            emailErrorLabel.text = ""
+        } else if textField.textContentType == .password {
+            passwordErrorLabel.text = ""
+        }
+        return true
     }
 }

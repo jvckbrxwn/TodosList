@@ -66,9 +66,9 @@ class TodoItemsViewController: UITableViewController {
     }
 
     private func navBarInitButtons() {
-        addButton = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addItemClicked))
-        editButton = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editTableItems))
-        endEditingButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(endEditingItems))
+        addButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addItemClicked))
+        editButton = UIBarButtonItem(image: UIImage(systemName: "pencil.circle"), style: .plain, target: self, action: #selector(editTableItems))
+        endEditingButton = UIBarButtonItem(image: UIImage(systemName: "pencil.slash"), style: .plain, target: self, action: #selector(endEditingItems))
     }
 }
 
