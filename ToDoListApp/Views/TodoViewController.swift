@@ -12,7 +12,9 @@ import UIKit
 class TodoViewController: UITableViewController {
     private lazy var todoPresenter = TodoPresenter()
     private lazy var todoItemsVC = TodoItemsViewController()
+    private lazy var searchController = UISearchController()
     private var todos = [Todo]()
+    private var filteredTodos = [Todo]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,23 +25,29 @@ class TodoViewController: UITableViewController {
         navigationItem.hidesBackButton = true
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutClicked))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addCategoryClicked))
+
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.searchBarStyle = .minimal
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todos.count
+        return !searchController.isActive ? todos.count : filteredTodos.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         var config = cell.defaultContentConfiguration()
-        config.text = todos[indexPath.row].name
+        config.text = !searchController.isActive ? todos[indexPath.row].name : filteredTodos[indexPath.row].name
         cell.contentConfiguration = config
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        todoItemsVC.selectedCategoryName = todos[indexPath.row].name
+        todoItemsVC.selectedCategoryName = !searchController.isActive ? todos[indexPath.row].name : filteredTodos[indexPath.row].name
+        searchController.isActive = false
         navigationController?.pushViewController(todoItemsVC, animated: true)
     }
 
@@ -97,5 +105,13 @@ extension TodoViewController {
             }
         })
         present(addCategoryAlert, animated: true)
+    }
+}
+
+extension TodoViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        filteredTodos = todos.filter({ $0.name.lowercased().contains(text.lowercased()) })
+        tableView.reloadData()
     }
 }

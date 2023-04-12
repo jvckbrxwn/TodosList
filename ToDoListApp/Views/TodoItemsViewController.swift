@@ -8,9 +8,12 @@
 import UIKit
 
 class TodoItemsViewController: UITableViewController {
-    private var presenter = TodoItemPresenter()
-    private var todoItems = [TodoItem]()
+    private lazy var presenter = TodoItemPresenter()
+    private lazy var searchController = UISearchController()
+
     private var addButton, editButton, endEditingButton: UIBarButtonItem?
+    private var todoItems = [TodoItem]()
+    private var filteredTodoItems = [TodoItem]()
 
     internal var selectedCategoryName: String = ""
 
@@ -20,20 +23,25 @@ class TodoItemsViewController: UITableViewController {
         navBarInitButtons()
         navBarSetButtons([addButton!, editButton!])
         presenter.setDelegate(delegate: self)
+
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.searchBarStyle = .minimal
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
         presenter.selectedCategory = selectedCategoryName // get items after selected category was set
         title = selectedCategoryName
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
     }
-    
-    //TODO: change to another view without alert with textField
+
+    // TODO: change to another view without alert with textField
     @objc private func addItemClicked() {
         var itemNameTextField = UITextField()
         let addItemAlert = UIAlertController(title: "Add item", message: "Enter the name to the new item", preferredStyle: .alert)
@@ -45,7 +53,7 @@ class TodoItemsViewController: UITableViewController {
                 self.presenter.addItem(TodoItem(isDone: false, name: name, creationDate: Date()))
             }
         })
-        addItemAlert.addAction(UIAlertAction(title: "Close", style: .cancel){ _ in
+        addItemAlert.addAction(UIAlertAction(title: "Close", style: .cancel) { _ in
             addItemAlert.dismiss(animated: true)
         })
         present(addItemAlert, animated: true)
@@ -77,17 +85,17 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
         let alert = ErrorAlert.shared.show(title: "Internal error", errorMessage: message)
         present(alert, animated: true)
     }
-    
+
     func didCategoryWasChanged() {
         todoItems = []
         tableView.reloadData()
     }
-    
+
     func didGetItems(items: [TodoItem]) {
         todoItems = items
         tableView.reloadData()
     }
-    
+
     func didItemUpdated(item: TodoItem) {
         let index = todoItems.firstIndex(where: { $0.name == item.name })
         if let i = index {
@@ -97,9 +105,12 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
     }
 
     func didItemRemoved(item: TodoItem) {
-        let index = todoItems.firstIndex(where: { $0.name == item.name })
+        let index = !searchController.isActive ? todoItems.firstIndex(where: { $0.name == item.name }) : filteredTodoItems.firstIndex(where: { $0.name == item.name })
         if let i = index {
-            todoItems.remove(at: i)
+            if !searchController.isActive { todoItems.remove(at: i)
+            } else {
+                filteredTodoItems.remove(at: i)
+            }
             tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .automatic)
         }
     }
@@ -115,7 +126,7 @@ extension TodoItemsViewController: TodoItemPresenterDelegate {
 extension TodoItemsViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
-        let item = todoItems[indexPath.row]
+        let item = !searchController.isActive ? todoItems[indexPath.row] : filteredTodoItems[indexPath.row]
         var config = cell.defaultContentConfiguration()
         config.text = item.name
         cell.contentConfiguration = config
@@ -125,17 +136,31 @@ extension TodoItemsViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        todoItems[indexPath.row].isDone = !todoItems[indexPath.row].isDone
-        presenter.updateItem(todoItems[indexPath.row])
+        if searchController.isActive {
+            filteredTodoItems[indexPath.row].isDone = !filteredTodoItems[indexPath.row].isDone
+            presenter.updateItem(filteredTodoItems[indexPath.row])
+        } else {
+            todoItems[indexPath.row].isDone = !todoItems[indexPath.row].isDone
+            presenter.updateItem(todoItems[indexPath.row])
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todoItems.count
+        return !searchController.isActive ? todoItems.count : filteredTodoItems.count
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            presenter.deleteItem(todoItems[indexPath.row])
+            let item = !searchController.isActive ? todoItems[indexPath.row] : filteredTodoItems[indexPath.row]
+            presenter.deleteItem(item)
         }
+    }
+}
+
+extension TodoItemsViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else { return }
+        filteredTodoItems = todoItems.filter({ $0.name.lowercased().contains(text.lowercased()) })
+        tableView.reloadData()
     }
 }
